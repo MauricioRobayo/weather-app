@@ -47,5 +47,8 @@
     "trailingComma": "es5",
     "semi": false,
     "singleQuote": true
+  },
+  "dependencies": {
+    "linkify-it": "^2.2.0"
   }
 }
