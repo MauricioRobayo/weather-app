@@ -19,7 +19,7 @@ function createElement(type = 'div', properties = {}) {
   return element
 }
 
-function createNewLine({ text, type = 'default' }) {
+function createLine({ text, type = 'default' }) {
   let linkifiedText = linkifyText(text)
   const line = createElement('p', { classList: ['line', type] })
   switch (type) {
@@ -36,4 +36,4 @@ function createNewLine({ text, type = 'default' }) {
   return line
 }
 
-export { createElement, createNewLine }
+export { createElement, createLine }

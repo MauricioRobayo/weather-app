@@ -1,4 +1,4 @@
-import { createElement, createNewLine } from './elements-creators'
+import { createElement, createLine } from './elements-creators'
 
 class WeatherSession {
   constructor({ parentElement, weatherApi }) {
@@ -37,22 +37,31 @@ class WeatherSession {
     document.addEventListener('click', () => cityNameInput.focus())
   }
 
-  appendLine({ text, type = 'default' }) {
-    this.currentSession.append(createNewLine({ text, type }))
+  appendLine(line) {
+    this.currentSession.append(line)
+  }
+
+  replaceLine(line) {
+    this.currentSession.lastChild.replaceWith(line)
   }
 
   async getWeather(event) {
     const { value: city } = event.target
-    this.appendLine({ text: `Reaching ${this.weatherApi.url.origin}` })
+    this.appendLine(
+      createLine({ text: `Reaching ${this.weatherApi.url.origin}` })
+    )
+    this.appendLine(createLine({ text: `<div class="loader"></div>` }))
     const { response, data } = await this.weatherApi.fetchWeather(city)
     this.data = data
     if (response.status === 200) {
       this.displayWeatherInfo()
     } else {
-      this.appendLine({
-        text: `${response.status}: ${this.data.message}`,
-        type: 'error',
-      })
+      this.replaceLine(
+        createLine({
+          text: `${response.status}: ${this.data.message}`,
+          type: 'error',
+        })
+      )
     }
     this.startNewSession()
   }
@@ -60,19 +69,19 @@ class WeatherSession {
   displayWeatherInfo() {
     const fragment = document.createDocumentFragment()
     const { cityInfo, weatherInfo } = this.data
-    fragment.append(createNewLine({ text: 'City', type: 'title' }))
+    fragment.append(createLine({ text: 'City', type: 'title' }))
     Object.keys(cityInfo).forEach(key => {
       fragment.append(
-        createNewLine({ text: `${key}: ${cityInfo[key]}`, type: 'info' })
+        createLine({ text: `${key}: ${cityInfo[key]}`, type: 'info' })
       )
     })
-    fragment.append(createNewLine({ text: 'Weather', type: 'title' }))
+    fragment.append(createLine({ text: 'Weather', type: 'title' }))
     Object.keys(weatherInfo).forEach(key => {
       fragment.append(
-        createNewLine({ text: `${key}: ${weatherInfo[key]}`, type: 'info' })
+        createLine({ text: `${key}: ${weatherInfo[key]}`, type: 'info' })
       )
     })
-    this.currentSession.append(fragment)
+    this.replaceLine(fragment)
   }
 }
 
