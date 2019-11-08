@@ -1,0 +1,39 @@
+html {
+  box-sizing: border-box;
+  font-size: 14px;
+  --background-color: #333333;
+  --main-color: #aaff00;
+  --secondary-color: #00e7ff;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+body {
+  font-family: 'Share Tech Mono', monospace;
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+  color: var(--main-color);
+}
+main {
+  max-width: 1366px;
+  padding: 0.5rem;
+  margin: 0rem auto;
+}
+.line {
+  display: flex;
+  align-content: stretch;
+  width: 100%;
+  input {
+    background-color: transparent;
+    flex-grow: 1;
+    color: var(--main-color);
+    border: none;
+    margin-left: 0.5rem;
+  }
+  input:focus {
+    outline: none;
+  }
+}
