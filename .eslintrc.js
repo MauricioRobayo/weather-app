@@ -16,5 +16,6 @@ module.exports = {
     'no-shadow': 0,
     'no-param-reassign': 0,
     'eol-last': 0,
+    'no-underscore-dangle': ['error', { allowAfterThis: true }],
   },
 }
