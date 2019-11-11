@@ -53,7 +53,7 @@ class WeatherSession {
     this.appendLine(createLine({ text: `<div class="loader"></div>` }))
     const { response, data } = await this.weatherApi.fetchWeather(city)
     this.data = data
-    if (response.status === 200) {
+    if (response.ok) {
       this.displayWeatherInfo()
     } else {
       this.replaceLine(
