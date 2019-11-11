@@ -7,10 +7,11 @@ class WeatherApi {
     this._url = new URL(API_ENDPOINT, API_URL)
   }
 
-  async fetchWeather(city) {
+  async fetchWeather(city, units = 'metric') {
     this._url.search = new URLSearchParams({
       q: city,
       appid: this.apiKey,
+      units,
     }).toString()
     const response = await fetch(this._url.href)
     const data = await response.json()
