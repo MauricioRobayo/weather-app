@@ -1,4 +1,5 @@
 import { createElement, createLine } from './elements-creators'
+import WeatherApi from './weather-api'
 
 class WeatherSession {
   constructor({ parentElement, weatherApi }) {
@@ -68,7 +69,7 @@ class WeatherSession {
 
   displayWeatherInfo() {
     const fragment = document.createDocumentFragment()
-    const { cityInfo, weatherInfo } = this.data
+    const { cityInfo, weatherInfo } = WeatherApi.parseData(this.data)
     fragment.append(createLine({ text: 'City', type: 'title' }))
     Object.keys(cityInfo).forEach(key => {
       fragment.append(

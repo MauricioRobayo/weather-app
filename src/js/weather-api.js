@@ -15,7 +15,7 @@ class WeatherApi {
     }).toString()
     const response = await fetch(this._url.href)
     const data = await response.json()
-    return { response, data: WeatherApi.parseData(data) }
+    return { response, data }
   }
 
   get url() {
