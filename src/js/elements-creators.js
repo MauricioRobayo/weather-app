@@ -38,7 +38,7 @@ function createLine({ text, type = 'default' }) {
 
 function createIcon(file) {
   return createElement('img', {
-    src: `http://openweathermap.org/img/wn/${file}.png`,
+    src: `https://openweathermap.org/img/wn/${file}.png`,
     alt: 'weather icon',
     classList: ['icon', file.endsWith('d') ? 'day' : 'night'],
   })
