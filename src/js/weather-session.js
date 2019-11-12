@@ -98,17 +98,17 @@ class WeatherSession {
     } = this.data
     const tempC = this.units === 'metric' ? temp : toCelsius(temp)
     const tempF = this.units === 'metric' ? toFarenheit(temp) : temp
-    fragment.append(createLine({ text: 'City', type: 'title' }))
-    fragment.append(createLine({ text: `name: ${name}`, type: 'info' }))
-    fragment.append(createLine({ text: `country: ${country}`, type: 'info' }))
-    fragment.append(
-      createLine({ text: `time: ${getTimeFromOffset(timezone)}`, type: 'info' })
-    )
+    fragment.append(createLine({ text: `${name}, ${country}`, type: 'title' }))
     const title = createLine({ text: 'Weather', type: 'title' })
     const img = createIcon(icon)
     title.append(img)
     fragment.append(title)
-    fragment.append(createLine({ text: `main: ${main}`, type: 'info' }))
+    fragment.append(
+      createLine({ text: `time: ${getTimeFromOffset(timezone)}`, type: 'info' })
+    )
+    fragment.append(
+      createLine({ text: `main: ${main.toLowerCase()}`, type: 'info' })
+    )
     fragment.append(
       createLine({ text: `description: ${description}`, type: 'info' })
     )
