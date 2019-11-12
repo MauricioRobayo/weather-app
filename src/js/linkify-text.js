@@ -1,6 +1,5 @@
-import linkify from 'linkify-it'
-
-const linkifyIt = linkify()
+// eslint-disable-next-line import/no-unresolved
+const linkifyIt = require('linkify-it')()
 
 function linkifyText(text) {
   let linkifiedText = text
