@@ -1,6 +1,8 @@
 # Weather App
 
-Weather forecast app using the [Open Weather API](https://openweathermap.org/api) from the previous lesson. You should be able to search for a specific location and toggle displaying the data in Fahrenheit or Celsius.
+[![Build Status](https://github.com/MauricioRobayo/weather-app/workflows/Build%20and%20Deploy/badge.svg)](https://github.com/MauricioRobayo/weather-app/actions)
+
+Weather forecast app using the [Open Weather API](https://openweathermap.org/api).
 
 [Live site](https://mauriciorobayo.github.io/weather-app).
 
