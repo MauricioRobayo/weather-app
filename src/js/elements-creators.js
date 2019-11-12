@@ -43,4 +43,5 @@ function createIcon(file) {
     classList: ['icon', file.endsWith('d') ? 'day' : 'night'],
   })
 }
+
 export { createElement, createLine, createIcon }
