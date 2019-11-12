@@ -9,4 +9,4 @@ const session = new WeatherSession({
   weatherApi: new WeatherApi(WEATHER_API_KEY),
 })
 
-session.startNewSession()
+session.startNewSession({ recursive: true })

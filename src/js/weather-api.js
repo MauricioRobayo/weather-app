@@ -21,35 +21,6 @@ class WeatherApi {
   get url() {
     return this._url
   }
-
-  static parseData(data) {
-    const {
-      name,
-      sys: { country },
-      timezone,
-      id,
-      weather: [{ main, description }],
-      main: { temp, pressure, humidity },
-      wind: { speed, deg },
-    } = data
-    return {
-      cityInfo: {
-        name,
-        country,
-        timezone,
-        id,
-      },
-      weatherInfo: {
-        main,
-        description,
-        temp,
-        pressure,
-        humidity,
-        windSpeed: speed,
-        windDeg: deg,
-      },
-    }
-  }
 }
 
 export default WeatherApi
