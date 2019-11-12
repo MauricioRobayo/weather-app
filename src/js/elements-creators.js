@@ -40,7 +40,7 @@ function createIcon(file) {
   return createElement('img', {
     src: `http://openweathermap.org/img/wn/${file}.png`,
     alt: 'weather icon',
-    classList: ['icon'],
+    classList: ['icon', file.endsWith('d') ? 'day' : 'night'],
   })
 }
 export { createElement, createLine, createIcon }

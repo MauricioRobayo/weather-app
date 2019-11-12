@@ -40,6 +40,9 @@ body {
       border-radius: 4px;
       margin-left: 0.5rem;
       display: block;
+      &.night {
+        filter: grayscale(1) brightness(0.5);
+      }
     }
     &.error {
       color: var(--warning-color);
