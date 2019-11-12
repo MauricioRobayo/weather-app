@@ -51,6 +51,7 @@ class WeatherSession {
         this.getWeather(event)
       }
     })
+    cityNameInput.focus()
   }
 
   appendLine(line) {

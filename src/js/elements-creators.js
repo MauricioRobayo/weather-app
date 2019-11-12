@@ -1,4 +1,4 @@
-import linkifyText from './linkifyText'
+import linkifyText from './linkify-text'
 
 function createElement(type = 'div', properties = {}) {
   const element = document.createElement(type)
