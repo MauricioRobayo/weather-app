@@ -1,4 +1,6 @@
-const linkifyIt = require('linkify-it')()
+import linkify from 'linkify-it'
+
+const linkifyIt = linkify()
 
 function linkifyText(text) {
   let linkifiedText = text
