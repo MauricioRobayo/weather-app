@@ -1,5 +1,6 @@
 import { createElement, createLine, createIcon } from './elements-creators'
 import { toFarenheit, toCelsius } from './temp-conversion'
+import getTimeFromOffset from './get-time-from-offset'
 
 class WeatherSession {
   constructor({ parentElement, weatherApi, units = 'metric' }) {
@@ -13,7 +14,6 @@ class WeatherSession {
       classList: ['line'],
     })
     this.cityNameLabel = createElement('label', {
-      for: 'city-name',
       textContent: 'City name:',
     })
     this.cityNameInput = createElement('input', {
@@ -22,7 +22,8 @@ class WeatherSession {
       name: 'city-name',
     })
     this.temp = createElement('span', { classList: ['temp'] })
-    this.line.append(this.cityNameLabel, this.cityNameInput)
+    this.cityNameLabel.append(this.cityNameInput)
+    this.line.append(this.cityNameLabel)
     this.sessionWrapper.append(this.line)
   }
 
@@ -97,11 +98,12 @@ class WeatherSession {
     } = this.data
     const tempC = this.units === 'metric' ? temp : toCelsius(temp)
     const tempF = this.units === 'metric' ? toFarenheit(temp) : temp
-
     fragment.append(createLine({ text: 'City', type: 'title' }))
     fragment.append(createLine({ text: `name: ${name}`, type: 'info' }))
     fragment.append(createLine({ text: `country: ${country}`, type: 'info' }))
-    fragment.append(createLine({ text: `timezone: ${timezone}`, type: 'info' }))
+    fragment.append(
+      createLine({ text: `time: ${getTimeFromOffset(timezone)}`, type: 'info' })
+    )
     const title = createLine({ text: 'Weather', type: 'title' })
     const img = createIcon(icon)
     title.append(img)
