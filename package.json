@@ -1,7 +1,7 @@
 {
   "name": "weather-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "[![Build Status](https://github.com/MauricioRobayo/weather-app/workflows/Build%20and%20Deploy/badge.svg)](https://github.com/MauricioRobayo/weather-app/actions)",
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --open",
@@ -50,5 +50,14 @@
   },
   "dependencies": {
     "linkify-it": "^2.2.0"
-  }
+  },
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MauricioRobayo/weather-app.git"
+  },
+  "bugs": {
+    "url": "https://mauriciorobayo.github.io/weather-app"
+  },
+  "homepage": "https://github.com/MauricioRobayo/weather-app#readme"
 }

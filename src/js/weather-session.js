@@ -50,7 +50,6 @@ class WeatherSession {
         this.getWeather(event)
       }
     })
-    document.addEventListener('click', () => cityNameInput.focus())
   }
 
   appendLine(line) {
