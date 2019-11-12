@@ -36,4 +36,11 @@ function createLine({ text, type = 'default' }) {
   return line
 }
 
-export { createElement, createLine }
+function createIcon(file) {
+  return createElement('img', {
+    src: `http://openweathermap.org/img/wn/${file}.png`,
+    alt: 'weather icon',
+    classList: ['icon'],
+  })
+}
+export { createElement, createLine, createIcon }

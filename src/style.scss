@@ -17,6 +17,7 @@ body {
   margin: 0;
   padding: 0;
   color: var(--primary-color);
+  line-height: 1.5;
 }
 #weather-session {
   max-width: 1366px;
@@ -31,6 +32,15 @@ body {
     width: 100%;
     margin: 0;
     padding: 0;
+    .icon {
+      width: 25px;
+      height: 20px;
+      object-fit: cover;
+      background: #4dc7ff;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+      display: block;
+    }
     &.error {
       color: var(--warning-color);
     }
@@ -72,9 +82,10 @@ body {
       border: 0.5px solid var(--secondary-color);
       background-color: var(--background-color);
       cursor: pointer;
+      filter: brightness(0.75);
     }
     .toggle:hover {
-      filter: brightness(1.5);
+      filter: brightness(1);
       transition: 0.25s;
     }
     .unit-active {

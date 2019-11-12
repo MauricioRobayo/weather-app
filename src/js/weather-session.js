@@ -1,4 +1,4 @@
-import { createElement, createLine } from './elements-creators'
+import { createElement, createLine, createIcon } from './elements-creators'
 import { toFarenheit, toCelsius } from './temp-conversion'
 
 class WeatherSession {
@@ -27,12 +27,16 @@ class WeatherSession {
   }
 
   changeUnit(event) {
+    const button =
+      event.target.tagName === 'BUTTON'
+        ? event.target
+        : event.target.parentElement
     this.units = this.units === 'metric' ? 'imperial' : 'metric'
-    event.target.innerHTML =
+    button.innerHTML =
       this.units === 'metric'
         ? '<span class="unit-active">C</span> ⇄ F'
         : '<span class="unit-active">F</span> ⇄ C'
-    const { tempc, tempf } = event.target.dataset
+    const { tempc, tempf } = button.dataset
     this.temp.textContent = this.units === 'metric' ? tempc : tempf
   }
 
@@ -91,10 +95,9 @@ class WeatherSession {
       name,
       sys: { country = '' },
       timezone = '',
-      weather: [{ main = '', description = '' }],
+      weather: [{ main = '', description = '', icon = '' }],
       main: { temp = '', pressure = '', humidity = '' },
     } = this.data
-
     const tempC = this.units === 'metric' ? temp : toCelsius(temp)
     const tempF = this.units === 'metric' ? toFarenheit(temp) : temp
 
@@ -102,7 +105,10 @@ class WeatherSession {
     fragment.append(createLine({ text: `name: ${name}`, type: 'info' }))
     fragment.append(createLine({ text: `country: ${country}`, type: 'info' }))
     fragment.append(createLine({ text: `timezone: ${timezone}`, type: 'info' }))
-    fragment.append(createLine({ text: 'Weather', type: 'title' }))
+    const title = createLine({ text: 'Weather', type: 'title' })
+    const img = createIcon(icon)
+    title.append(img)
+    fragment.append(title)
     fragment.append(createLine({ text: `main: ${main}`, type: 'info' }))
     fragment.append(
       createLine({ text: `description: ${description}`, type: 'info' })
