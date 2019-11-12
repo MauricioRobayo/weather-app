@@ -63,9 +63,7 @@ class WeatherSession {
 
   async getWeather(event) {
     const { value: city } = event.target
-    this.appendLine(
-      createLine({ text: `Reaching ${this.weatherApi.url.origin}` })
-    )
+    this.appendLine(createLine({ text: `↑↓ ${this.weatherApi.url.origin}` }))
     this.appendLine(createLine({ text: `<div class="loader"></div>` }))
     const { response, data } = await this.weatherApi.fetchWeather(
       city,
