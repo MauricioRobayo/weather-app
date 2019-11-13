@@ -1,4 +1,9 @@
-import { createElement, createLine, createIcon } from './elements-creators'
+import {
+  createElement,
+  createLine,
+  createInfoLine,
+  createIcon,
+} from './elements-creators'
 import getTimeFromOffset from './get-time-from-offset'
 
 class WeatherSession {
@@ -79,7 +84,8 @@ class WeatherSession {
     )
     this.data = data
     if (response.ok) {
-      this.displayWeatherInfo()
+      this.displayTitle()
+      this.displayInfo()
     } else {
       this.replaceLine(
         createLine({
@@ -116,18 +122,6 @@ class WeatherSession {
       weather: [{ main = '', description = '' }],
       main: { temp = '', pressure = '', humidity = '' },
     } = this.data
-    const time = createLine({
-      text: `time: ${getTimeFromOffset(timezone)}`,
-      type: 'info',
-    })
-    const weatherMain = createLine({
-      text: `main: ${main.toLowerCase()}`,
-      type: 'info',
-    })
-    const weatherDescription = createLine({
-      text: `description: ${description}`,
-      type: 'info',
-    })
     this.temp.textContent = temp
     const tempUnit = createElement('button', {
       classList: ['toggle'],
@@ -136,33 +130,19 @@ class WeatherSession {
           ? '<span class="unit-active">C</span> ⇄ F'
           : '<span class="unit-active">F</span> ⇄ C',
     })
-    const tempData = createLine({
-      text: `temp:`,
-      type: 'info',
-      children: [this.temp, tempUnit],
-    })
+    const tempData = createInfoLine('temp')
+    tempData.append(this.temp, tempUnit)
     tempUnit.addEventListener('click', this.changeUnit.bind(this))
-    const weatherPressure = createLine({
-      text: `pressure: ${pressure}hPa`,
-      type: 'info',
-    })
-    const weatherHumidity = createLine({
-      text: `humidity: ${humidity}%`,
-      type: 'info',
-    })
     this.appendLine(
-      time,
-      weatherMain,
-      weatherDescription,
       tempData,
-      weatherPressure,
-      weatherHumidity
+      ...Object.entries({
+        time: getTimeFromOffset(timezone),
+        main: main.toLowerCase(),
+        description,
+        pressure: `${pressure}hPa`,
+        humidity: `${humidity}%`,
+      }).map(([key, value]) => createInfoLine(key, value))
     )
-  }
-
-  displayWeatherInfo() {
-    this.displayTitle()
-    this.displayInfo()
   }
 }
 

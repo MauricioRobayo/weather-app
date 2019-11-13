@@ -34,6 +34,13 @@ const createLine = ({ text, type = 'default', children = [] }) => {
   return line
 }
 
+const createInfoLine = (key, value = '') => {
+  return createLine({
+    text: `${key}: ${value}`,
+    type: 'info',
+  })
+}
+
 const createIcon = file => {
   return createElement('img', {
     src: `https://openweathermap.org/img/wn/${file}.png`,
@@ -42,4 +49,4 @@ const createIcon = file => {
   })
 }
 
-export { createElement, createLine, createIcon }
+export { createElement, createLine, createInfoLine, createIcon }
