@@ -6,10 +6,32 @@ class WeatherSession {
     this.sessionParent = parentElement
     this.weatherApi = weatherApi
     this.units = units
-    this.setupElements()
   }
 
-  setupElements() {
+  startNewSession() {
+    this.setupInput()
+    this.setupTempElement()
+    const cityNameInput = this.sessionWrapper.querySelector('#city-name')
+    cityNameInput.focus()
+    cityNameInput.addEventListener('keypress', event => {
+      if (event.keyCode === 13) {
+        event.target.disabled = true
+        this.getWeather(event)
+      }
+    })
+    cityNameInput.focus()
+  }
+
+  setupTempElement() {
+    this.temp = create.element('span', { classList: ['temp'] })
+    this.tempUnit = create.element('button', {
+      classList: ['toggle'],
+      innerHTML: this.buttonContent(),
+    })
+    this.tempUnit.addEventListener('click', this.changeUnit.bind(this))
+  }
+
+  setupInput() {
     this.cityNameInput = create.element('input', {
       type: 'text',
       id: 'city-name',
@@ -24,57 +46,7 @@ class WeatherSession {
       classList: ['session-wrapper'],
       children: [this.line],
     })
-    this.temp = create.element('span', { classList: ['temp'] })
-    this.tempUnit = create.element('button', {
-      classList: ['toggle'],
-      innerHTML: this.buttonContent(),
-    })
-    this.tempUnit.addEventListener('click', this.changeUnit.bind(this))
-  }
-
-  buttonContent() {
-    return this.units === 'metric'
-      ? '<span class="unit-active">C</span> ⇄ F'
-      : '<span class="unit-active">F</span> ⇄ C'
-  }
-
-  async changeUnit(event) {
-    const button =
-      event.target.tagName === 'BUTTON'
-        ? event.target
-        : event.target.parentElement
-    button.classList.add('hide')
-    this.units = this.units === 'metric' ? 'imperial' : 'metric'
-    this.temp.innerHTML = '<div class="loader"></div>'
-    const {
-      data: {
-        main: { temp },
-      },
-    } = await this.weatherApi.fetchWeather(this.city, this.units)
-    button.innerHTML = this.buttonContent()
-    this.temp.textContent = temp
-    button.classList.remove('hide')
-  }
-
-  startNewSession() {
     this.sessionParent.append(this.sessionWrapper)
-    const cityNameInput = this.sessionWrapper.querySelector('#city-name')
-    cityNameInput.focus()
-    cityNameInput.addEventListener('keypress', event => {
-      if (event.keyCode === 13) {
-        event.target.disabled = true
-        this.getWeather(event)
-      }
-    })
-    cityNameInput.focus()
-  }
-
-  appendLine(...line) {
-    this.sessionWrapper.append(...line)
-  }
-
-  replaceLine(...line) {
-    this.sessionWrapper.lastChild.replaceWith(...line)
   }
 
   async getWeather(event) {
@@ -103,6 +75,38 @@ class WeatherSession {
       weatherApi: this.weatherApi,
     })
     session.startNewSession()
+  }
+
+  buttonContent() {
+    return this.units === 'metric'
+      ? '<span class="unit-active">C</span> ⇄ F'
+      : '<span class="unit-active">F</span> ⇄ C'
+  }
+
+  async changeUnit(event) {
+    const button =
+      event.target.tagName === 'BUTTON'
+        ? event.target
+        : event.target.parentElement
+    button.classList.add('hide')
+    this.units = this.units === 'metric' ? 'imperial' : 'metric'
+    this.temp.innerHTML = '<div class="loader"></div>'
+    const {
+      data: {
+        main: { temp },
+      },
+    } = await this.weatherApi.fetchWeather(this.city, this.units)
+    button.innerHTML = this.buttonContent()
+    this.temp.textContent = temp
+    button.classList.remove('hide')
+  }
+
+  appendLine(...line) {
+    this.sessionWrapper.append(...line)
+  }
+
+  replaceLine(...line) {
+    this.sessionWrapper.lastChild.replaceWith(...line)
   }
 
   displayTitle() {
