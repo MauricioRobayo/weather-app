@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 const linkifyIt = require('linkify-it')()
 
 const linkifyText = text => {
