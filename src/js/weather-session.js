@@ -11,6 +11,10 @@ class WeatherSession {
     this.sessionParent = parentElement
     this.weatherApi = weatherApi
     this.units = units
+    this.setupElements()
+  }
+
+  setupElements() {
     this.cityNameInput = createElement('input', {
       type: 'text',
       id: 'city-name',
