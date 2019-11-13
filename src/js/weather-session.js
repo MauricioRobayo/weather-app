@@ -12,14 +12,16 @@ class WeatherSession {
     this.setupInput()
     this.setupTempElement()
     const cityNameInput = this.sessionWrapper.querySelector('#city-name')
+    cityNameInput.addEventListener('keypress', this.keypress.bind(this))
     cityNameInput.focus()
-    cityNameInput.addEventListener('keypress', event => {
-      if (event.keyCode === 13) {
-        event.target.disabled = true
-        this.getWeather(event)
-      }
-    })
-    cityNameInput.focus()
+  }
+
+  async keypress(event) {
+    if (event.keyCode === 13) {
+      event.target.disabled = true
+      await this.getWeather(event)
+      this.handleResponse()
+    }
   }
 
   setupTempElement() {
@@ -59,7 +61,6 @@ class WeatherSession {
       this,
       await this.weatherApi.fetchWeather(this.city, this.units)
     )
-    this.handleResponse()
   }
 
   handleResponse() {
