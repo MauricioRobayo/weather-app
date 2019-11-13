@@ -64,8 +64,8 @@ class WeatherSession {
     this.sessionWrapper.append(line)
   }
 
-  replaceLine(line) {
-    this.sessionWrapper.lastChild.replaceWith(line)
+  replaceLine(lines) {
+    this.sessionWrapper.lastChild.replaceWith(...lines)
   }
 
   async getWeather(event) {
@@ -81,12 +81,12 @@ class WeatherSession {
     if (response.ok) {
       this.displayWeatherInfo()
     } else {
-      this.replaceLine(
+      this.replaceLine([
         createLine({
           text: `${response.status}: ${this.data.message}`,
           type: 'error',
-        })
-      )
+        }),
+      ])
     }
     const session = new WeatherSession({
       parentElement: this.sessionParent,
@@ -96,7 +96,6 @@ class WeatherSession {
   }
 
   displayWeatherInfo() {
-    const fragment = document.createDocumentFragment()
     const {
       name,
       sys: { country = '' },
@@ -104,23 +103,23 @@ class WeatherSession {
       weather: [{ main = '', description = '', icon = '' }],
       main: { temp = '', pressure = '', humidity = '' },
     } = this.data
-    fragment.append(createLine({ text: `${name}, ${country}`, type: 'title' }))
-    const img = createIcon(icon)
     const title = createLine({
-      text: 'Weather',
+      text: `${name}, ${country}`,
       type: 'title',
-      children: [img],
+      children: [createIcon(icon)],
     })
-    fragment.append(title)
-    fragment.append(
-      createLine({ text: `time: ${getTimeFromOffset(timezone)}`, type: 'info' })
-    )
-    fragment.append(
-      createLine({ text: `main: ${main.toLowerCase()}`, type: 'info' })
-    )
-    fragment.append(
-      createLine({ text: `description: ${description}`, type: 'info' })
-    )
+    const time = createLine({
+      text: `time: ${getTimeFromOffset(timezone)}`,
+      type: 'info',
+    })
+    const weatherMain = createLine({
+      text: `main: ${main.toLowerCase()}`,
+      type: 'info',
+    })
+    const weatherDescription = createLine({
+      text: `description: ${description}`,
+      type: 'info',
+    })
     this.temp.textContent = temp
     const tempUnit = createElement('button', {
       classList: ['toggle'],
@@ -135,14 +134,23 @@ class WeatherSession {
       children: [this.temp, tempUnit],
     })
     tempUnit.addEventListener('click', this.changeUnit.bind(this))
-    fragment.append(tempData)
-    fragment.append(
-      createLine({ text: `pressure: ${pressure}hPa`, type: 'info' })
-    )
-    fragment.append(
-      createLine({ text: `humidity: ${humidity}%`, type: 'info' })
-    )
-    this.replaceLine(fragment)
+    const weatherPressure = createLine({
+      text: `pressure: ${pressure}hPa`,
+      type: 'info',
+    })
+    const weatherHumidity = createLine({
+      text: `humidity: ${humidity}%`,
+      type: 'info',
+    })
+    this.replaceLine([
+      title,
+      time,
+      weatherMain,
+      weatherDescription,
+      tempData,
+      weatherPressure,
+      weatherHumidity,
+    ])
   }
 }
 
