@@ -103,6 +103,9 @@ body {
     content: '/';
   }
 }
+.hide {
+  display: none;
+}
 @keyframes rotate {
   to {
     transform: rotate(360deg);

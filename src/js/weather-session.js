@@ -31,6 +31,7 @@ class WeatherSession {
       event.target.tagName === 'BUTTON'
         ? event.target
         : event.target.parentElement
+    button.classList.add('hide')
     this.units = this.units === 'metric' ? 'imperial' : 'metric'
     this.temp.innerHTML = '<div class="loader"></div>'
     const {
@@ -43,6 +44,7 @@ class WeatherSession {
         ? '<span class="unit-active">C</span> ⇄ F'
         : '<span class="unit-active">F</span> ⇄ C'
     this.temp.textContent = temp
+    button.classList.remove('hide')
   }
 
   startNewSession() {
