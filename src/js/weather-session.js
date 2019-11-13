@@ -32,6 +32,7 @@ class WeatherSession {
         ? event.target
         : event.target.parentElement
     this.units = this.units === 'metric' ? 'imperial' : 'metric'
+    this.temp.innerHTML = '<div class="loader"></div>'
     const {
       data: {
         main: { temp },
