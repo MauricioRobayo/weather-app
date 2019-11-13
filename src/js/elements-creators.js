@@ -25,9 +25,8 @@ const createElement = (type = 'div', properties = {}) => {
   return element
 }
 
-const createLine = ({ text, type = 'default' }) => {
+const createLine = ({ text, type = 'default', children = [] }) => {
   let linkifiedText = linkifyText(text)
-  const line = createElement('p', { classList: ['line', type] })
   switch (type) {
     case 'error':
       linkifiedText = `ERROR! ${linkifiedText}`
@@ -38,7 +37,11 @@ const createLine = ({ text, type = 'default' }) => {
     default:
       break
   }
-  line.innerHTML = linkifiedText
+  const line = createElement('p', {
+    innerHTML: linkifiedText,
+    classList: ['line', type],
+    children,
+  })
   return line
 }
 
