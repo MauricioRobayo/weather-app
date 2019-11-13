@@ -31,12 +31,15 @@ class WeatherSession {
     this.temp = createElement('span', { classList: ['temp'] })
     this.tempUnit = createElement('button', {
       classList: ['toggle'],
-      innerHTML:
-        this.units === 'metric'
-          ? '<span class="unit-active">C</span> ⇄ F'
-          : '<span class="unit-active">F</span> ⇄ C',
+      innerHTML: this.buttonContent(),
     })
     this.tempUnit.addEventListener('click', this.changeUnit.bind(this))
+  }
+
+  buttonContent() {
+    return this.units === 'metric'
+      ? '<span class="unit-active">C</span> ⇄ F'
+      : '<span class="unit-active">F</span> ⇄ C'
   }
 
   async changeUnit(event) {
@@ -52,10 +55,7 @@ class WeatherSession {
         main: { temp },
       },
     } = await this.weatherApi.fetchWeather(this.city, this.units)
-    button.innerHTML =
-      this.units === 'metric'
-        ? '<span class="unit-active">C</span> ⇄ F'
-        : '<span class="unit-active">F</span> ⇄ C'
+    button.innerHTML = this.buttonContent()
     this.temp.textContent = temp
     button.classList.remove('hide')
   }
