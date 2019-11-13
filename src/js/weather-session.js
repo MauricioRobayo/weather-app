@@ -50,10 +50,11 @@ class WeatherSession {
   }
 
   async getWeather(event) {
-    const { value: city } = event.target
-    this.city = city
-    this.appendLine(create.line({ text: `↑↓ ${this.weatherApi.url.origin}` }))
-    this.appendLine(create.line({ text: `<div class="loader"></div>` }))
+    this.city = event.target.value
+    this.appendLine(
+      create.line({ text: `↑↓ ${this.weatherApi.url.origin}` }),
+      create.loader()
+    )
     const { response, data } = await this.weatherApi.fetchWeather(
       this.city,
       this.units
@@ -90,7 +91,7 @@ class WeatherSession {
         : event.target.parentElement
     button.classList.add('hide')
     this.units = this.units === 'metric' ? 'imperial' : 'metric'
-    this.temp.innerHTML = '<div class="loader"></div>'
+    this.temp.firstChild.replaceWith(create.loader())
     const {
       data: {
         main: { temp },

@@ -49,4 +49,10 @@ const icon = file => {
   })
 }
 
-export { element, line, infoLine, icon }
+const loader = () => {
+  return element('div', {
+    classList: ['loader'],
+  })
+}
+
+export { element, line, infoLine, icon, loader }
