@@ -29,6 +29,14 @@ class WeatherSession {
       children: [this.line],
     })
     this.temp = createElement('span', { classList: ['temp'] })
+    this.tempUnit = createElement('button', {
+      classList: ['toggle'],
+      innerHTML:
+        this.units === 'metric'
+          ? '<span class="unit-active">C</span> ⇄ F'
+          : '<span class="unit-active">F</span> ⇄ C',
+    })
+    this.tempUnit.addEventListener('click', this.changeUnit.bind(this))
   }
 
   async changeUnit(event) {
@@ -123,16 +131,8 @@ class WeatherSession {
       main: { temp = '', pressure = '', humidity = '' },
     } = this.data
     this.temp.textContent = temp
-    const tempUnit = createElement('button', {
-      classList: ['toggle'],
-      innerHTML:
-        this.units === 'metric'
-          ? '<span class="unit-active">C</span> ⇄ F'
-          : '<span class="unit-active">F</span> ⇄ C',
-    })
     const tempData = createInfoLine('temp')
-    tempData.append(this.temp, tempUnit)
-    tempUnit.addEventListener('click', this.changeUnit.bind(this))
+    tempData.append(this.temp, this.tempUnit)
     this.appendLine(
       tempData,
       ...Object.entries({
