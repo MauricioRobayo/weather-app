@@ -55,18 +55,21 @@ class WeatherSession {
       create.line({ text: `↑↓ ${this.weatherApi.url.origin}` }),
       create.loader()
     )
-    const { response, data } = await this.weatherApi.fetchWeather(
-      this.city,
-      this.units
+    Object.assign(
+      this,
+      await this.weatherApi.fetchWeather(this.city, this.units)
     )
-    this.data = data
-    if (response.ok) {
+    this.handleResponse()
+  }
+
+  handleResponse() {
+    if (this.response.ok) {
       this.displayTitle()
       this.displayInfo()
     } else {
       this.replaceLine(
         create.line({
-          text: `${response.status}: ${this.data.message}`,
+          text: `${this.response.status}: ${this.data.message}`,
           type: 'error',
         })
       )
