@@ -1,5 +1,4 @@
 import { createElement, createLine, createIcon } from './elements-creators'
-import { toFarenheit, toCelsius } from './temp-conversion'
 import getTimeFromOffset from './get-time-from-offset'
 
 class WeatherSession {
@@ -27,18 +26,22 @@ class WeatherSession {
     this.sessionWrapper.append(this.line)
   }
 
-  changeUnit(event) {
+  async changeUnit(event) {
     const button =
       event.target.tagName === 'BUTTON'
         ? event.target
         : event.target.parentElement
     this.units = this.units === 'metric' ? 'imperial' : 'metric'
+    const {
+      data: {
+        main: { temp },
+      },
+    } = await this.weatherApi.fetchWeather(this.city, this.units)
     button.innerHTML =
       this.units === 'metric'
         ? '<span class="unit-active">C</span> ⇄ F'
         : '<span class="unit-active">F</span> ⇄ C'
-    const { tempc, tempf } = button.dataset
-    this.temp.textContent = this.units === 'metric' ? tempc : tempf
+    this.temp.textContent = temp
   }
 
   startNewSession() {
@@ -64,10 +67,11 @@ class WeatherSession {
 
   async getWeather(event) {
     const { value: city } = event.target
+    this.city = city
     this.appendLine(createLine({ text: `↑↓ ${this.weatherApi.url.origin}` }))
     this.appendLine(createLine({ text: `<div class="loader"></div>` }))
     const { response, data } = await this.weatherApi.fetchWeather(
-      city,
+      this.city,
       this.units
     )
     this.data = data
@@ -97,8 +101,6 @@ class WeatherSession {
       weather: [{ main = '', description = '', icon = '' }],
       main: { temp = '', pressure = '', humidity = '' },
     } = this.data
-    const tempC = this.units === 'metric' ? temp : toCelsius(temp)
-    const tempF = this.units === 'metric' ? toFarenheit(temp) : temp
     fragment.append(createLine({ text: `${name}, ${country}`, type: 'title' }))
     const title = createLine({ text: 'Weather', type: 'title' })
     const img = createIcon(icon)
@@ -124,7 +126,6 @@ class WeatherSession {
         this.units === 'metric'
           ? '<span class="unit-active">C</span> ⇄ F'
           : '<span class="unit-active">F</span> ⇄ C',
-      dataset: { tempC, tempF },
     })
     tempUnit.addEventListener('click', this.changeUnit.bind(this))
     tempData.append(this.temp, tempUnit)
