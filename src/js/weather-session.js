@@ -71,11 +71,10 @@ class WeatherSession {
         })
       )
     }
-    const session = new WeatherSession({
+    new WeatherSession({
       parentElement: this.sessionParent,
       weatherApi: this.weatherApi,
-    })
-    session.startNewSession()
+    }).startNewSession()
   }
 
   buttonContent() {
