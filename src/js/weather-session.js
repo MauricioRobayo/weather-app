@@ -60,12 +60,12 @@ class WeatherSession {
     cityNameInput.focus()
   }
 
-  appendLine(line) {
-    this.sessionWrapper.append(line)
+  appendLine(...line) {
+    this.sessionWrapper.append(...line)
   }
 
-  replaceLine(lines) {
-    this.sessionWrapper.lastChild.replaceWith(...lines)
+  replaceLine(...line) {
+    this.sessionWrapper.lastChild.replaceWith(...line)
   }
 
   async getWeather(event) {
@@ -81,12 +81,12 @@ class WeatherSession {
     if (response.ok) {
       this.displayWeatherInfo()
     } else {
-      this.replaceLine([
+      this.replaceLine(
         createLine({
           text: `${response.status}: ${this.data.message}`,
           type: 'error',
-        }),
-      ])
+        })
+      )
     }
     const session = new WeatherSession({
       parentElement: this.sessionParent,
@@ -95,19 +95,27 @@ class WeatherSession {
     session.startNewSession()
   }
 
-  displayWeatherInfo() {
+  displayTitle() {
     const {
       name,
-      sys: { country = '' },
+      sys: { country },
+      weather: [{ icon }],
+    } = this.data
+    this.replaceLine(
+      createLine({
+        text: `${name}, ${country}`,
+        type: 'title',
+        children: [createIcon(icon)],
+      })
+    )
+  }
+
+  displayInfo() {
+    const {
       timezone = '',
-      weather: [{ main = '', description = '', icon = '' }],
+      weather: [{ main = '', description = '' }],
       main: { temp = '', pressure = '', humidity = '' },
     } = this.data
-    const title = createLine({
-      text: `${name}, ${country}`,
-      type: 'title',
-      children: [createIcon(icon)],
-    })
     const time = createLine({
       text: `time: ${getTimeFromOffset(timezone)}`,
       type: 'info',
@@ -142,15 +150,19 @@ class WeatherSession {
       text: `humidity: ${humidity}%`,
       type: 'info',
     })
-    this.replaceLine([
-      title,
+    this.appendLine(
       time,
       weatherMain,
       weatherDescription,
       tempData,
       weatherPressure,
-      weatherHumidity,
-    ])
+      weatherHumidity
+    )
+  }
+
+  displayWeatherInfo() {
+    this.displayTitle()
+    this.displayInfo()
   }
 }
 
