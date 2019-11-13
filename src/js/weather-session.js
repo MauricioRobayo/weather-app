@@ -1,4 +1,4 @@
-import { createElement, createLine, createIcon } from './elements-creators'
+import * as create from './elements-creators'
 import getTimeFromOffset from './get-time-from-offset'
 
 class WeatherSession {
@@ -6,24 +6,81 @@ class WeatherSession {
     this.sessionParent = parentElement
     this.weatherApi = weatherApi
     this.units = units
-    this.sessionWrapper = createElement('div', {
-      classList: ['session-wrapper'],
+  }
+
+  startNewSession() {
+    this.setupInput()
+    this.setupTempElement()
+    const cityNameInput = this.sessionWrapper.querySelector('#city-name')
+    cityNameInput.focus()
+    cityNameInput.addEventListener('keypress', event => {
+      if (event.keyCode === 13) {
+        event.target.disabled = true
+        this.getWeather(event)
+      }
     })
-    this.line = createElement('div', {
-      classList: ['line'],
+    cityNameInput.focus()
+  }
+
+  setupTempElement() {
+    this.temp = create.element('span', { classList: ['temp'] })
+    this.tempUnit = create.element('button', {
+      classList: ['toggle'],
+      innerHTML: this.buttonContent(),
     })
-    this.cityNameLabel = createElement('label', {
-      textContent: 'City name:',
-    })
-    this.cityNameInput = createElement('input', {
+    this.tempUnit.addEventListener('click', this.changeUnit.bind(this))
+  }
+
+  setupInput() {
+    this.cityNameInput = create.element('input', {
       type: 'text',
       id: 'city-name',
       name: 'city-name',
     })
-    this.temp = createElement('span', { classList: ['temp'] })
-    this.cityNameLabel.append(this.cityNameInput)
-    this.line.append(this.cityNameLabel)
-    this.sessionWrapper.append(this.line)
+    this.cityNameLabel = create.element('label', {
+      textContent: 'City name:',
+      children: [this.cityNameInput],
+    })
+    this.line = create.line({ children: [this.cityNameLabel] })
+    this.sessionWrapper = create.element('div', {
+      classList: ['session-wrapper'],
+      children: [this.line],
+    })
+    this.sessionParent.append(this.sessionWrapper)
+  }
+
+  async getWeather(event) {
+    const { value: city } = event.target
+    this.city = city
+    this.appendLine(create.line({ text: `↑↓ ${this.weatherApi.url.origin}` }))
+    this.appendLine(create.line({ text: `<div class="loader"></div>` }))
+    const { response, data } = await this.weatherApi.fetchWeather(
+      this.city,
+      this.units
+    )
+    this.data = data
+    if (response.ok) {
+      this.displayTitle()
+      this.displayInfo()
+    } else {
+      this.replaceLine(
+        create.line({
+          text: `${response.status}: ${this.data.message}`,
+          type: 'error',
+        })
+      )
+    }
+    const session = new WeatherSession({
+      parentElement: this.sessionParent,
+      weatherApi: this.weatherApi,
+    })
+    session.startNewSession()
+  }
+
+  buttonContent() {
+    return this.units === 'metric'
+      ? '<span class="unit-active">C</span> ⇄ F'
+      : '<span class="unit-active">F</span> ⇄ C'
   }
 
   async changeUnit(event) {
@@ -39,107 +96,48 @@ class WeatherSession {
         main: { temp },
       },
     } = await this.weatherApi.fetchWeather(this.city, this.units)
-    button.innerHTML =
-      this.units === 'metric'
-        ? '<span class="unit-active">C</span> ⇄ F'
-        : '<span class="unit-active">F</span> ⇄ C'
+    button.innerHTML = this.buttonContent()
     this.temp.textContent = temp
     button.classList.remove('hide')
   }
 
-  startNewSession() {
-    this.sessionParent.append(this.sessionWrapper)
-    const cityNameInput = this.sessionWrapper.querySelector('#city-name')
-    cityNameInput.focus()
-    cityNameInput.addEventListener('keypress', event => {
-      if (event.keyCode === 13) {
-        event.target.disabled = true
-        this.getWeather(event)
-      }
-    })
-    cityNameInput.focus()
+  appendLine(...line) {
+    this.sessionWrapper.append(...line)
   }
 
-  appendLine(line) {
-    this.sessionWrapper.append(line)
+  replaceLine(...line) {
+    this.sessionWrapper.lastChild.replaceWith(...line)
   }
 
-  replaceLine(line) {
-    this.sessionWrapper.lastChild.replaceWith(line)
-  }
-
-  async getWeather(event) {
-    const { value: city } = event.target
-    this.city = city
-    this.appendLine(createLine({ text: `↑↓ ${this.weatherApi.url.origin}` }))
-    this.appendLine(createLine({ text: `<div class="loader"></div>` }))
-    const { response, data } = await this.weatherApi.fetchWeather(
-      this.city,
-      this.units
+  displayTitle() {
+    this.replaceLine(
+      create.line({
+        text: `${this.data.name}, ${this.data.sys.country}`,
+        type: 'title',
+        children: [create.icon(this.data.weather[0].icon)],
+      })
     )
-    this.data = data
-    if (response.ok) {
-      this.displayWeatherInfo()
-    } else {
-      this.replaceLine(
-        createLine({
-          text: `${response.status}: ${this.data.message}`,
-          type: 'error',
-        })
-      )
-    }
-    const session = new WeatherSession({
-      parentElement: this.sessionParent,
-      weatherApi: this.weatherApi,
-    })
-    session.startNewSession()
   }
 
-  displayWeatherInfo() {
-    const fragment = document.createDocumentFragment()
+  displayInfo() {
     const {
-      name,
-      sys: { country = '' },
       timezone = '',
-      weather: [{ main = '', description = '', icon = '' }],
+      weather: [{ main = '', description = '' }],
       main: { temp = '', pressure = '', humidity = '' },
     } = this.data
-    fragment.append(createLine({ text: `${name}, ${country}`, type: 'title' }))
-    const title = createLine({ text: 'Weather', type: 'title' })
-    const img = createIcon(icon)
-    title.append(img)
-    fragment.append(title)
-    fragment.append(
-      createLine({ text: `time: ${getTimeFromOffset(timezone)}`, type: 'info' })
-    )
-    fragment.append(
-      createLine({ text: `main: ${main.toLowerCase()}`, type: 'info' })
-    )
-    fragment.append(
-      createLine({ text: `description: ${description}`, type: 'info' })
-    )
     this.temp.textContent = temp
-    const tempData = createLine({
-      text: `temp:`,
-      type: 'info',
-    })
-    const tempUnit = createElement('button', {
-      classList: ['toggle'],
-      innerHTML:
-        this.units === 'metric'
-          ? '<span class="unit-active">C</span> ⇄ F'
-          : '<span class="unit-active">F</span> ⇄ C',
-    })
-    tempUnit.addEventListener('click', this.changeUnit.bind(this))
-    tempData.append(this.temp, tempUnit)
-    fragment.append(tempData)
-    fragment.append(
-      createLine({ text: `pressure: ${pressure}hPa`, type: 'info' })
+    const tempData = create.infoLine('temp')
+    tempData.append(this.temp, this.tempUnit)
+    this.appendLine(
+      tempData,
+      ...Object.entries({
+        time: getTimeFromOffset(timezone),
+        main: main.toLowerCase(),
+        description,
+        pressure: `${pressure}hPa`,
+        humidity: `${humidity}%`,
+      }).map(([key, value]) => create.infoLine(key, value))
     )
-    fragment.append(
-      createLine({ text: `humidity: ${humidity}%`, type: 'info' })
-    )
-    this.replaceLine(fragment)
   }
 }
 
