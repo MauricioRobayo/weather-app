@@ -1,9 +1,4 @@
-import {
-  createElement,
-  createLine,
-  createInfoLine,
-  createIcon,
-} from './elements-creators'
+import * as create from './elements-creators'
 import getTimeFromOffset from './get-time-from-offset'
 
 class WeatherSession {
@@ -15,25 +10,22 @@ class WeatherSession {
   }
 
   setupElements() {
-    this.cityNameInput = createElement('input', {
+    this.cityNameInput = create.element('input', {
       type: 'text',
       id: 'city-name',
       name: 'city-name',
     })
-    this.cityNameLabel = createElement('label', {
+    this.cityNameLabel = create.element('label', {
       textContent: 'City name:',
       children: [this.cityNameInput],
     })
-    this.line = createElement('div', {
-      classList: ['line'],
-      children: [this.cityNameLabel],
-    })
-    this.sessionWrapper = createElement('div', {
+    this.line = create.line({ children: [this.cityNameLabel] })
+    this.sessionWrapper = create.element('div', {
       classList: ['session-wrapper'],
       children: [this.line],
     })
-    this.temp = createElement('span', { classList: ['temp'] })
-    this.tempUnit = createElement('button', {
+    this.temp = create.element('span', { classList: ['temp'] })
+    this.tempUnit = create.element('button', {
       classList: ['toggle'],
       innerHTML: this.buttonContent(),
     })
@@ -88,8 +80,8 @@ class WeatherSession {
   async getWeather(event) {
     const { value: city } = event.target
     this.city = city
-    this.appendLine(createLine({ text: `↑↓ ${this.weatherApi.url.origin}` }))
-    this.appendLine(createLine({ text: `<div class="loader"></div>` }))
+    this.appendLine(create.line({ text: `↑↓ ${this.weatherApi.url.origin}` }))
+    this.appendLine(create.line({ text: `<div class="loader"></div>` }))
     const { response, data } = await this.weatherApi.fetchWeather(
       this.city,
       this.units
@@ -100,7 +92,7 @@ class WeatherSession {
       this.displayInfo()
     } else {
       this.replaceLine(
-        createLine({
+        create.line({
           text: `${response.status}: ${this.data.message}`,
           type: 'error',
         })
@@ -115,10 +107,10 @@ class WeatherSession {
 
   displayTitle() {
     this.replaceLine(
-      createLine({
+      create.line({
         text: `${this.data.name}, ${this.data.sys.country}`,
         type: 'title',
-        children: [createIcon(this.data.weather[0].icon)],
+        children: [create.icon(this.data.weather[0].icon)],
       })
     )
   }
@@ -130,7 +122,7 @@ class WeatherSession {
       main: { temp = '', pressure = '', humidity = '' },
     } = this.data
     this.temp.textContent = temp
-    const tempData = createInfoLine('temp')
+    const tempData = create.infoLine('temp')
     tempData.append(this.temp, this.tempUnit)
     this.appendLine(
       tempData,
@@ -140,7 +132,7 @@ class WeatherSession {
         description,
         pressure: `${pressure}hPa`,
         humidity: `${humidity}%`,
-      }).map(([key, value]) => createInfoLine(key, value))
+      }).map(([key, value]) => create.infoLine(key, value))
     )
   }
 }
