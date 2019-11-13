@@ -114,7 +114,7 @@ class WeatherSession {
       createLine({
         text: `${this.data.name}, ${this.data.sys.country}`,
         type: 'title',
-        children: [createIcon(this.weather[0].icon)],
+        children: [createIcon(this.data.weather[0].icon)],
       })
     )
   }
