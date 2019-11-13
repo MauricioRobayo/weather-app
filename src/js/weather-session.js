@@ -110,16 +110,11 @@ class WeatherSession {
   }
 
   displayTitle() {
-    const {
-      name,
-      sys: { country },
-      weather: [{ icon }],
-    } = this.data
     this.replaceLine(
       createLine({
-        text: `${name}, ${country}`,
+        text: `${this.data.name}, ${this.data.sys.country}`,
         type: 'title',
-        children: [createIcon(icon)],
+        children: [createIcon(this.weather[0].icon)],
       })
     )
   }
