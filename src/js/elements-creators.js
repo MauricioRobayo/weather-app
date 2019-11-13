@@ -1,6 +1,6 @@
 import linkifyText from './linkify-text'
 
-function createElement(type = 'div', properties = {}) {
+const createElement = (type = 'div', properties = {}) => {
   const element = document.createElement(type)
   Object.keys(properties).forEach(property => {
     switch (property) {
@@ -19,7 +19,7 @@ function createElement(type = 'div', properties = {}) {
   return element
 }
 
-function createLine({ text, type = 'default' }) {
+const createLine = ({ text, type = 'default' }) => {
   let linkifiedText = linkifyText(text)
   const line = createElement('p', { classList: ['line', type] })
   switch (type) {
@@ -36,7 +36,7 @@ function createLine({ text, type = 'default' }) {
   return line
 }
 
-function createIcon(file) {
+const createIcon = file => {
   return createElement('img', {
     src: `https://openweathermap.org/img/wn/${file}.png`,
     alt: 'weather icon',

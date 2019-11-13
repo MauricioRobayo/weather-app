@@ -1,4 +1,4 @@
-function getTimeFromOffset(timeOffsetInSeconds) {
+const getTimeFromOffset = timeOffsetInSeconds => {
   const d = new Date()
   const d2 = new Date(
     d.getFullYear(),

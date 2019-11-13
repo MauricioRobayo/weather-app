@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-unresolved
 const linkifyIt = require('linkify-it')()
 
-function linkifyText(text) {
+const linkifyText = text => {
   let linkifiedText = text
   if (linkifyIt.test(text)) {
     linkifyIt.match(text).forEach(({ url }) => {
