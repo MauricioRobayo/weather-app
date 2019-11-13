@@ -6,24 +6,24 @@ class WeatherSession {
     this.sessionParent = parentElement
     this.weatherApi = weatherApi
     this.units = units
-    this.sessionWrapper = createElement('div', {
-      classList: ['session-wrapper'],
-    })
-    this.line = createElement('div', {
-      classList: ['line'],
-    })
-    this.cityNameLabel = createElement('label', {
-      textContent: 'City name:',
-    })
     this.cityNameInput = createElement('input', {
       type: 'text',
       id: 'city-name',
       name: 'city-name',
     })
+    this.cityNameLabel = createElement('label', {
+      textContent: 'City name:',
+      children: [this.cityNameInput],
+    })
+    this.line = createElement('div', {
+      classList: ['line'],
+      children: [this.cityNameLabel],
+    })
+    this.sessionWrapper = createElement('div', {
+      classList: ['session-wrapper'],
+      children: [this.line],
+    })
     this.temp = createElement('span', { classList: ['temp'] })
-    this.cityNameLabel.append(this.cityNameInput)
-    this.line.append(this.cityNameLabel)
-    this.sessionWrapper.append(this.line)
   }
 
   async changeUnit(event) {
@@ -105,9 +105,12 @@ class WeatherSession {
       main: { temp = '', pressure = '', humidity = '' },
     } = this.data
     fragment.append(createLine({ text: `${name}, ${country}`, type: 'title' }))
-    const title = createLine({ text: 'Weather', type: 'title' })
     const img = createIcon(icon)
-    title.append(img)
+    const title = createLine({
+      text: 'Weather',
+      type: 'title',
+      children: [img],
+    })
     fragment.append(title)
     fragment.append(
       createLine({ text: `time: ${getTimeFromOffset(timezone)}`, type: 'info' })
@@ -119,10 +122,6 @@ class WeatherSession {
       createLine({ text: `description: ${description}`, type: 'info' })
     )
     this.temp.textContent = temp
-    const tempData = createLine({
-      text: `temp:`,
-      type: 'info',
-    })
     const tempUnit = createElement('button', {
       classList: ['toggle'],
       innerHTML:
@@ -130,8 +129,12 @@ class WeatherSession {
           ? '<span class="unit-active">C</span> ⇄ F'
           : '<span class="unit-active">F</span> ⇄ C',
     })
+    const tempData = createLine({
+      text: `temp:`,
+      type: 'info',
+      children: [this.temp, tempUnit],
+    })
     tempUnit.addEventListener('click', this.changeUnit.bind(this))
-    tempData.append(this.temp, tempUnit)
     fragment.append(tempData)
     fragment.append(
       createLine({ text: `pressure: ${pressure}hPa`, type: 'info' })

@@ -10,6 +10,9 @@ const setProperty = (element, key, value) => {
         element.setAttribute(`data-${data}`, value[data])
       })
       break
+    case 'children':
+      element.append(...value)
+      break
     default:
       element[key] = value
   }
