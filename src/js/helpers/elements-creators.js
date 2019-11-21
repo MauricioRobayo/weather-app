@@ -14,21 +14,20 @@ const addChildren = (element, children) => {
   element.append(...children)
 }
 
+const propertiesFuncs = {
+  classList: addClassList,
+  dataset: addDataset,
+  children: addChildren,
+}
+
 const setProperty = (element, key, value) => {
-  switch (key) {
-    case 'classList':
-      addClassList(element, value)
-      break
-    case 'dataset':
-      addDataset(element, value)
-      break
-    case 'children':
-      addChildren(element, value)
-      break
-    default:
-      element[key] = value
+  if (propertiesFuncs[key]) {
+    propertiesFuncs[key](element, value)
+  } else {
+    element[key] = value
   }
 }
+
 const element = (type = 'div', properties = {}) => {
   const element = document.createElement(type)
   Object.entries(properties).forEach(([key, value]) => {
