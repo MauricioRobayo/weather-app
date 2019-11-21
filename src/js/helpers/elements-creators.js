@@ -1,17 +1,29 @@
 import linkifyText from './linkify-text'
 
+const addClassList = (element, classList) => {
+  element.classList.add(...classList)
+}
+
+const addDataset = (element, dataset) => {
+  Object.entries(dataset).forEach((key, value) => {
+    element.setAttribute(`data-${key}`, value)
+  })
+}
+
+const addChildren = (element, children) => {
+  element.append(...children)
+}
+
 const setProperty = (element, key, value) => {
   switch (key) {
     case 'classList':
-      element.classList.add(...value)
+      addClassList(element, value)
       break
     case 'dataset':
-      Object.keys(value).forEach(data => {
-        element.setAttribute(`data-${data}`, value[data])
-      })
+      addDataset(element, value)
       break
     case 'children':
-      element.append(...value)
+      addChildren(element, value)
       break
     default:
       element[key] = value
