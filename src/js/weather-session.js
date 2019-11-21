@@ -38,6 +38,7 @@ class WeatherSession {
       type: 'text',
       id: 'city-name',
       name: 'city-name',
+      placeholder: 'Montevideo, UY',
     })
     this.cityNameLabel = create.element('label', {
       textContent: 'City name:',
