@@ -1,5 +1,5 @@
-import * as create from './elements-creators'
-import getTimeFromOffset from './get-time-from-offset'
+import * as create from './helpers/elements-creators'
+import getTimeFromOffset from './helpers/get-time-from-offset'
 
 class WeatherSession {
   constructor({ parentElement, weatherApi, units = 'metric' }) {
