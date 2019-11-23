@@ -6,18 +6,19 @@ class WeatherSession {
     this.sessionParent = parentElement
     this.weatherApi = weatherApi
     this.units = units
-    this.city = city
+    this.initialCity = city
   }
 
   startNewSession() {
     this.setupInput()
     this.setupTempElement()
     const cityNameInput = this.sessionWrapper.querySelector('#city-name')
-    cityNameInput.addEventListener('keypress', this.keypress.bind(this))
+    cityNameInput.addEventListener('keyup', this.keypress.bind(this))
     cityNameInput.focus()
   }
 
   async keypress(event) {
+    event.preventDefault()
     if (event.keyCode === 13) {
       event.target.disabled = true
       await this.getWeather(event)
@@ -39,7 +40,7 @@ class WeatherSession {
       type: 'text',
       id: 'city-name',
       name: 'city-name',
-      placeholder: this.city,
+      placeholder: this.initialCity,
     })
     this.cityNameLabel = create.element('label', {
       textContent: 'City name:',
@@ -54,14 +55,14 @@ class WeatherSession {
   }
 
   async getWeather(event) {
-    this.city = event.target.value
+    const requestedCity = event.target.value
     this.appendLine(
       create.line({ text: `↑↓ ${this.weatherApi.url.origin}` }),
       create.loader()
     )
     Object.assign(
       this,
-      await this.weatherApi.fetchWeather(this.city, this.units)
+      await this.weatherApi.fetchWeather(requestedCity, this.units)
     )
   }
 
@@ -80,6 +81,7 @@ class WeatherSession {
     new WeatherSession({
       parentElement: this.sessionParent,
       weatherApi: this.weatherApi,
+      city: this.initialCity,
     }).startNewSession()
   }
 
@@ -101,7 +103,7 @@ class WeatherSession {
       data: {
         main: { temp },
       },
-    } = await this.weatherApi.fetchWeather(this.city, this.units)
+    } = await this.weatherApi.fetchWeather(this.initialCity, this.units)
     button.innerHTML = this.buttonContent()
     this.temp.textContent = temp
     button.classList.remove('hide')
