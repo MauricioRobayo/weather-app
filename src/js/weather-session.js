@@ -2,10 +2,11 @@ import * as create from './helpers/elements-creators'
 import getTimeFromOffset from './helpers/get-time-from-offset'
 
 class WeatherSession {
-  constructor({ parentElement, weatherApi, units = 'metric' }) {
+  constructor({ parentElement, weatherApi, city = '', units = 'metric' }) {
     this.sessionParent = parentElement
     this.weatherApi = weatherApi
     this.units = units
+    this.city = city
   }
 
   startNewSession() {
@@ -38,7 +39,7 @@ class WeatherSession {
       type: 'text',
       id: 'city-name',
       name: 'city-name',
-      placeholder: 'Montevideo, UY',
+      placeholder: this.city,
     })
     this.cityNameLabel = create.element('label', {
       textContent: 'City name:',
