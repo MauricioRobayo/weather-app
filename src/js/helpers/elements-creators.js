@@ -97,8 +97,11 @@ const temperature = (activeUnit, clickCallback) => {
     classList: ['toggle'],
     innerHTML: unitsToggle(activeUnit),
   })
+  const temperatureLine = infoLine('temp', {
+    children: [temperature, toggleTemperature],
+  })
   toggleTemperature.addEventListener('click', clickCallback)
-  return { temperature, toggleTemperature }
+  return { temperatureLine, temperature }
 }
 
 export {

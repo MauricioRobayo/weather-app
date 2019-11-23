@@ -108,10 +108,8 @@ class WeatherSession {
       main: { temp = '', pressure = '', humidity = '' },
     } = this.data
     this.temperature.textContent = temp
-    const tempData = create.infoLine('temp')
-    tempData.append(this.temperature, this.toggleTemperature)
     this.appendLine(
-      tempData,
+      this.temperatureLine,
       ...Object.entries({
         time: getTimeFromOffset(timezone),
         main: main.toLowerCase(),
