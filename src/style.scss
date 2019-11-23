@@ -1,9 +1,12 @@
 html {
   box-sizing: border-box;
   font-size: 12px;
-  --background-color: #333333;
+  --darken-p: 15%;
+  --background-color: hsl(0, 0%, 20%);
+  --background-color--daker: hsl(0, 0%, calc(20% - var(--darken-p)));
   --primary-color: #aaff00;
-  --secondary-color: #00e7ff;
+  --secondary-color: hsl(186, 100%, 50%);
+  --secondary-color--darker: hsl(186, 100%, calc(50% - var(--darken-p)));
   --warning-color: #ff0056;
 }
 *,
@@ -33,8 +36,8 @@ body {
     margin: 0;
     padding: 0;
     .icon {
-      width: 25px;
-      height: 20px;
+      width: 22px;
+      height: 16px;
       object-fit: cover;
       background: #4dc7ff;
       border-radius: 4px;
@@ -49,6 +52,7 @@ body {
     }
     &.title {
       font-weight: bold;
+      margin: 0.25rem;
     }
     &.info {
       color: var(--secondary-color);
@@ -83,17 +87,20 @@ body {
     .toggle {
       padding: 0 0.5rem;
       border-radius: 2px;
-      border: 0.5px solid var(--secondary-color);
-      background-color: var(--background-color);
+      color: var(--secondary-color--darker);
+      border: 0.5px solid currentColor;
+      background-color: var(--background-color--darker);
       cursor: pointer;
-      filter: brightness(0.75);
     }
     .toggle:hover {
-      filter: brightness(1);
+      color: var(--secondary-color);
+      border: 0.5px solid currentColor;
+      background-color: var(--background-color);
       transition: 0.25s;
     }
     .unit-active {
       font-weight: bold;
+      color: var(--secondary-color);
     }
   }
 }
