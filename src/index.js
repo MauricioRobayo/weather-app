@@ -12,11 +12,13 @@ const ipinfo = new IPInfo(IPINFO_API_KEY)
 ipinfo
   .getCity()
   .then(city => {
-    new WeatherSession({
+    const weatherSession = new WeatherSession({
       parentElement: displayElement,
       weatherApi: new WeatherApi(WEATHER_API_KEY),
       city,
-    }).startNewSession()
+    })
+    weatherSession.startNewSession()
+    return weatherSession
   })
   .catch(e => {
     displayElement.append(e.message)
