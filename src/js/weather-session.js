@@ -20,6 +20,8 @@ class WeatherSession {
   async keypress(event) {
     event.preventDefault()
     if (event.keyCode === 13) {
+      this.requestedCity = event.target.value || event.target.placeholder
+      event.target.value = this.requestedCity
       event.target.disabled = true
       await this.getWeather(event)
       this.handleResponse()
@@ -54,15 +56,14 @@ class WeatherSession {
     this.sessionParent.append(this.sessionWrapper)
   }
 
-  async getWeather(event) {
-    const requestedCity = event.target.value
+  async getWeather() {
     this.appendLine(
       create.line({ text: `↑↓ ${this.weatherApi.url.origin}` }),
       create.loader()
     )
     Object.assign(
       this,
-      await this.weatherApi.fetchWeather(requestedCity, this.units)
+      await this.weatherApi.fetchWeather(this.requestedCity, this.units)
     )
   }
 
