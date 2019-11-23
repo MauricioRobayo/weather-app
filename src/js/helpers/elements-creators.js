@@ -14,17 +14,20 @@ const addChildren = (element, children) => {
   element.append(...children)
 }
 
-const propertiesFuncs = {
-  classList: addClassList,
-  dataset: addDataset,
-  children: addChildren,
+const propertyFunc = property => {
+  return {
+    classList: addClassList,
+    dataset: addDataset,
+    children: addChildren,
+  }[property]
 }
 
 const setProperty = (element, key, value) => {
-  if (propertiesFuncs[key]) {
-    propertiesFuncs[key](element, value)
-  } else {
+  const pFunc = propertyFunc(key)
+  if (pFunc === undefined) {
     element[key] = value
+  } else {
+    pFunc(element, value)
   }
 }
 
