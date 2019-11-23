@@ -66,4 +66,24 @@ const loader = () => {
   })
 }
 
-export { element, line, infoLine, icon, loader }
+const prompt = (placeholder, keyupCallback) => {
+  const cityNameInput = element('input', {
+    type: 'text',
+    id: 'city-name',
+    name: 'city-name',
+    placeholder,
+  })
+  const cityNameLabel = element('label', {
+    textContent: 'City name:',
+    children: [cityNameInput],
+  })
+  const sessionWrapper = element('div', {
+    classList: ['session-wrapper'],
+    children: [line({ children: [cityNameLabel] })],
+  })
+  cityNameInput.addEventListener('keyup', keyupCallback)
+  cityNameInput.focus()
+  return sessionWrapper
+}
+
+export { element, line, infoLine, icon, loader, prompt }

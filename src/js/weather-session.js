@@ -10,11 +10,12 @@ class WeatherSession {
   }
 
   startNewSession() {
-    this.setupInput()
+    this.sessionWrapper = create.prompt(
+      this.initialCity,
+      this.keypress.bind(this)
+    )
+    this.sessionParent.append(this.sessionWrapper)
     this.setupTempElement()
-    const cityNameInput = this.sessionWrapper.querySelector('#city-name')
-    cityNameInput.addEventListener('keyup', this.keypress.bind(this))
-    cityNameInput.focus()
   }
 
   async keypress(event) {
@@ -35,25 +36,6 @@ class WeatherSession {
       innerHTML: this.buttonContent(),
     })
     this.tempUnit.addEventListener('click', this.changeUnit.bind(this))
-  }
-
-  setupInput() {
-    this.cityNameInput = create.element('input', {
-      type: 'text',
-      id: 'city-name',
-      name: 'city-name',
-      placeholder: this.initialCity,
-    })
-    this.cityNameLabel = create.element('label', {
-      textContent: 'City name:',
-      children: [this.cityNameInput],
-    })
-    this.line = create.line({ children: [this.cityNameLabel] })
-    this.sessionWrapper = create.element('div', {
-      classList: ['session-wrapper'],
-      children: [this.line],
-    })
-    this.sessionParent.append(this.sessionWrapper)
   }
 
   async getWeather() {
