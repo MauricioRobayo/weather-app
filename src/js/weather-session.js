@@ -10,32 +10,29 @@ class WeatherSession {
   }
 
   startNewSession() {
-    this.sessionWrapper = create.prompt(
-      this.initialCity,
-      this.keypress.bind(this)
+    Object.assign(
+      this,
+      create.prompt(this.initialCity, this.keypress.bind(this)),
+      create.temperature(this.units, this.changeUnit.bind(this))
     )
     this.sessionParent.append(this.sessionWrapper)
-    this.setupTempElement()
+    this.cityNameInput.focus()
   }
 
   async keypress(event) {
-    event.preventDefault()
     if (event.keyCode === 13) {
-      this.requestedCity = event.target.value || event.target.placeholder
-      event.target.value = this.requestedCity
-      event.target.disabled = true
-      await this.getWeather(event)
+      this.setRequestedCity()
+      await this.getWeather()
       this.handleResponse()
     }
   }
 
-  setupTempElement() {
-    this.temp = create.element('span', { classList: ['temp'] })
-    this.tempUnit = create.element('button', {
-      classList: ['toggle'],
-      innerHTML: this.buttonContent(),
-    })
-    this.tempUnit.addEventListener('click', this.changeUnit.bind(this))
+  setRequestedCity() {
+    if (!this.cityNameInput.value) {
+      this.cityNameInput.value = this.cityNameInput.placeholder
+    }
+    this.requestedCity = this.cityNameInput.value
+    this.cityNameInput.disabled = true
   }
 
   async getWeather() {
@@ -68,12 +65,6 @@ class WeatherSession {
     }).startNewSession()
   }
 
-  buttonContent() {
-    return this.units === 'metric'
-      ? '<span class="unit-active">C</span> ⇄ F'
-      : '<span class="unit-active">F</span> ⇄ C'
-  }
-
   async changeUnit(event) {
     const button =
       event.target.tagName === 'BUTTON'
@@ -81,14 +72,14 @@ class WeatherSession {
         : event.target.parentElement
     button.classList.add('hide')
     this.units = this.units === 'metric' ? 'imperial' : 'metric'
-    this.temp.firstChild.replaceWith(create.loader())
+    this.temperature.firstChild.replaceWith(create.loader())
     const {
       data: {
         main: { temp },
       },
     } = await this.weatherApi.fetchWeather(this.initialCity, this.units)
-    button.innerHTML = this.buttonContent()
-    this.temp.textContent = temp
+    button.innerHTML = create.unitsToggle()
+    this.temperature.textContent = temp
     button.classList.remove('hide')
   }
 
@@ -116,9 +107,9 @@ class WeatherSession {
       weather: [{ main = '', description = '' }],
       main: { temp = '', pressure = '', humidity = '' },
     } = this.data
-    this.temp.textContent = temp
+    this.temperature.textContent = temp
     const tempData = create.infoLine('temp')
-    tempData.append(this.temp, this.tempUnit)
+    tempData.append(this.temperature, this.toggleTemperature)
     this.appendLine(
       tempData,
       ...Object.entries({

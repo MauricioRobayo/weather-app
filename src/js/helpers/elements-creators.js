@@ -82,8 +82,32 @@ const prompt = (placeholder, keyupCallback) => {
     children: [line({ children: [cityNameLabel] })],
   })
   cityNameInput.addEventListener('keyup', keyupCallback)
-  cityNameInput.focus()
-  return sessionWrapper
+  return { cityNameInput, sessionWrapper }
 }
 
-export { element, line, infoLine, icon, loader, prompt }
+const unitsToggle = activeUnit => {
+  return activeUnit === 'metric'
+    ? '<span class="unit-active">C</span> ⇄ F'
+    : '<span class="unit-active">F</span> ⇄ C'
+}
+
+const temperature = (activeUnit, clickCallback) => {
+  const temperature = element('span', { classList: ['temp'] })
+  const toggleTemperature = element('button', {
+    classList: ['toggle'],
+    innerHTML: unitsToggle(activeUnit),
+  })
+  toggleTemperature.addEventListener('click', clickCallback)
+  return { temperature, toggleTemperature }
+}
+
+export {
+  element,
+  line,
+  infoLine,
+  icon,
+  loader,
+  prompt,
+  temperature,
+  unitsToggle,
+}
