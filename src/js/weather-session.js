@@ -116,7 +116,7 @@ class WeatherSession {
         description,
         pressure: `${pressure}hPa`,
         humidity: `${humidity}%`,
-      }).map(([key, value]) => create.infoLine(key, value))
+      }).map(([key, value]) => create.infoLine(key, { value }))
     )
   }
 }

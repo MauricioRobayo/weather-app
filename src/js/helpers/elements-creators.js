@@ -48,10 +48,11 @@ const line = ({ text = '', type = 'default', children = [] }) => {
   return line
 }
 
-const infoLine = (key, value = '') => {
+const infoLine = (key, { value = '', children = [] }) => {
   return line({
     text: `${key}: ${value}`,
     type: 'info',
+    children,
   })
 }
 
@@ -103,6 +104,7 @@ const temperature = (activeUnit, clickCallback) => {
   const temperatureLine = infoLine('temp', {
     children: [temperature, toggleTemperature],
   })
+
   toggleTemperature.addEventListener('click', clickCallback)
   return { temperatureLine, temperature }
 }
