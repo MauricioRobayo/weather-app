@@ -20,7 +20,6 @@ class WeatherSession {
   }
 
   async keypress(event) {
-    console.log(event.key)
     if (event.key === 'Enter') {
       this.setRequestedCity()
       await this.getWeather()
