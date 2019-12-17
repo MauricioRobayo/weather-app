@@ -1,5 +1,6 @@
 import * as create from './helpers/elements-creators'
 import getTimeFromOffset from './helpers/get-time-from-offset'
+import { toFarenheit, toCelsius } from './helpers/temp-conversion'
 
 class WeatherSession {
   constructor({ parentElement, weatherApi, city = '', units = 'metric' }) {
@@ -70,17 +71,12 @@ class WeatherSession {
       event.target.tagName === 'BUTTON'
         ? event.target
         : event.target.parentElement
-    button.classList.add('hide')
+    this.temperature.textContent =
+      this.units === 'metric'
+        ? toFarenheit(this.temperature.textContent)
+        : toCelsius(this.temperature.textContent)
     this.units = this.units === 'metric' ? 'imperial' : 'metric'
-    this.temperature.firstChild.replaceWith(create.loader())
-    const {
-      data: {
-        main: { temp },
-      },
-    } = await this.weatherApi.fetchWeather(this.initialCity, this.units)
     button.innerHTML = create.unitsToggle()
-    this.temperature.textContent = temp
-    button.classList.remove('hide')
   }
 
   appendLine(...line) {
