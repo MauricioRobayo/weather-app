@@ -91,12 +91,12 @@ body {
       border: 0.5px solid currentColor;
       background-color: var(--background-color--darker);
       cursor: pointer;
+      transition: 0.25s;
     }
     .toggle:hover {
       color: var(--secondary-color);
       border: 0.5px solid currentColor;
       background-color: var(--background-color);
-      transition: 0.25s;
     }
     .unit-active {
       font-weight: bold;
