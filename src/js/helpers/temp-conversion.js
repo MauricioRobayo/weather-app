@@ -1,5 +1,4 @@
 function toFarenheit(temp) {
-  console.log(temp)
   return ((temp * 9) / 5 + 32).toLocaleString(undefined, {
     maximumFractionDigits: 2,
   })
