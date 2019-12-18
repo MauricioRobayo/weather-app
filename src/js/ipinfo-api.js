@@ -1,14 +1,10 @@
 class IPInfo {
-  constructor(apiKey) {
-    this.apiKey = apiKey
-    this._url = new URL('https://ipinfo.io/')
+  constructor() {
+    this._url = new URL('https://vast-lake-71168.herokuapp.com/ipinfo')
   }
 
   async fetchIPInfo() {
-    this._url.search = new URLSearchParams({
-      token: this.apiKey,
-    }).toString()
-    const response = await fetch(this._url.href)
+    const response = await fetch(this._url)
     const data = await response.json()
     return { response, data }
   }

@@ -1,16 +1,11 @@
-const API_URL = 'https://api.openweathermap.org/'
-const API_ENDPOINT = '/data/2.5/weather'
-
 class WeatherApi {
-  constructor(apiKey) {
-    this.apiKey = apiKey
-    this._url = new URL(API_ENDPOINT, API_URL)
+  constructor() {
+    this._url = new URL('https://vast-lake-71168.herokuapp.com/weather')
   }
 
   async fetchWeather(city, units = 'metric') {
     this._url.search = new URLSearchParams({
       q: city,
-      appid: this.apiKey,
       units,
     }).toString()
     const response = await fetch(this._url.href)
