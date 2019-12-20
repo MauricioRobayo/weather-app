@@ -4,8 +4,7 @@ import { loader, element } from './js/helpers/elements-creators'
 
 const displayElement = document.querySelector('main')
 const pageLoader = element('div', {
-  textContent: 'Loading... ',
-  children: [loader()],
+  children: [loader(), ' Loading...'],
 })
 
 displayElement.append(pageLoader)
