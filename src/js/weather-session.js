@@ -73,7 +73,7 @@ class WeatherSession {
         ? toFarenheit(this.temperature.textContent)
         : toCelsius(this.temperature.textContent)
     this.units = this.units === 'metric' ? 'imperial' : 'metric'
-    button.innerHTML = create.unitsToggle()
+    button.innerHTML = create.unitsToggle(this.units)
   }
 
   appendLine(...line) {
