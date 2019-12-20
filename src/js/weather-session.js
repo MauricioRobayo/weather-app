@@ -100,6 +100,7 @@ class WeatherSession {
       timezone = '',
       weather: [{ main = '', description = '' }],
       main: { temp = '', pressure = '', humidity = '' },
+      cache,
     } = this.data
     this.temperature.textContent = temp
     this.appendLine(
@@ -110,6 +111,7 @@ class WeatherSession {
         description,
         pressure: `${pressure}hPa`,
         humidity: `${humidity}%`,
+        cache: cache && new Date(cache).toISOString(),
       }).map(([key, value]) => create.infoLine(key, { value }))
     )
   }
