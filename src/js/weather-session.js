@@ -47,7 +47,7 @@ class WeatherSession {
 
   async getWeather() {
     this.appendLine(create.loader())
-    const data = await this.weatherApi('weather', {
+    const data = await this.weatherApi({
       q: this.requestedCity,
       units: this.units,
     })

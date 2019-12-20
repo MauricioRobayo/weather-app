@@ -1,4 +1,4 @@
-const fetchData = async (endpoint, queryparams = {}) => {
+const fetchData = endpoint => async (queryparams = {}) => {
   const url =
     window.location.hostname === 'localhost'
       ? 'http://localhost:5000'
@@ -13,4 +13,7 @@ const fetchData = async (endpoint, queryparams = {}) => {
   return response.json()
 }
 
-export default fetchData
+const fetchCity = fetchData('ipinfo')
+const fetchWeather = fetchData('weather')
+
+export { fetchCity, fetchWeather }
