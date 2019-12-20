@@ -37,10 +37,7 @@ class WeatherSession {
   }
 
   async getWeather() {
-    this.appendLine(
-      create.line({ text: `↑↓ ${this.weatherApi.url.origin}` }),
-      create.loader()
-    )
+    this.appendLine(create.loader())
     Object.assign(
       this,
       await this.weatherApi.fetchWeather(this.requestedCity, this.units)
