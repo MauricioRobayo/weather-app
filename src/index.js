@@ -1,4 +1,3 @@
-import './style.scss'
 import WeatherSession from './js/weather-session'
 import { fetchCity, fetchWeather } from './js/fetch-data'
 
