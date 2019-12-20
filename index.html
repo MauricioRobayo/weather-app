@@ -9,8 +9,137 @@
       rel="stylesheet"
     />
     <title>Weather App</title>
+    <style>
+      html {
+        box-sizing: border-box;
+        font-size: 12px;
+        --darken-p: 15%;
+        --background-color: hsl(0, 0%, 20%);
+        --background-color--daker: hsl(0, 0%, calc(20% - var(--darken-p)));
+        --primary-color: #aaff00;
+        --secondary-color: hsl(186, 100%, 50%);
+        --secondary-color--darker: hsl(186, 100%, calc(50% - var(--darken-p)));
+        --warning-color: #ff0056;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      body {
+        font-family: 'IBM Plex Mono', monospace;
+        background-color: var(--background-color);
+        margin: 0;
+        padding: 0;
+        color: var(--primary-color);
+        line-height: 1.5;
+      }
+
+      #weather-session {
+        max-width: 1366px;
+        padding: 0.5rem;
+        margin: 0rem auto;
+      }
+      #weather-session .session-wrapper {
+        margin-bottom: 1rem;
+      }
+      #weather-session .line {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #weather-session .line .icon {
+        width: 22px;
+        height: 16px;
+        object-fit: cover;
+        background: #4dc7ff;
+        border-radius: 4px;
+        margin-left: 0.5rem;
+        display: block;
+      }
+      #weather-session .line .icon.night {
+        filter: grayscale(1) brightness(0.5);
+      }
+      #weather-session .line.error {
+        color: var(--warning-color);
+      }
+      #weather-session .line.title {
+        font-weight: bold;
+        margin: 0.25rem;
+      }
+      #weather-session .line.info {
+        color: var(--secondary-color);
+        margin-left: 1.25rem;
+      }
+      #weather-session .line a {
+        margin-left: 0.25rem;
+        margin-right: 0.25rem;
+        color: var(--primary-color);
+      }
+      #weather-session .line label {
+        flex-shrink: 0;
+      }
+      #weather-session .line input,
+      #weather-session .line button {
+        font-family: inherit;
+        font-size: inherit;
+        color: inherit;
+      }
+      #weather-session .line input {
+        background-color: transparent;
+        flex-grow: 1;
+        border: none;
+        margin-left: 0.5rem;
+      }
+      #weather-session .line input:focus {
+        outline: none;
+      }
+      #weather-session .line .temp {
+        margin: 0 0.5rem;
+      }
+      #weather-session .line .toggle {
+        padding: 0 0.5rem;
+        border-radius: 2px;
+        color: var(--secondary-color--darker);
+        border: 0.5px solid currentColor;
+        background-color: var(--background-color--darker);
+        cursor: pointer;
+        transition: 0.25s;
+      }
+      #weather-session .line .toggle:hover {
+        color: var(--secondary-color);
+        border: 0.5px solid currentColor;
+        background-color: var(--background-color);
+      }
+      #weather-session .line .unit-active {
+        font-weight: bold;
+        color: var(--secondary-color);
+      }
+
+      .loader {
+        display: inline-block;
+        animation: rotate 1s steps(3, end) infinite;
+      }
+      .loader:before {
+        content: '/';
+      }
+
+      .hide {
+        display: none;
+      }
+
+      @keyframes rotate {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </head>
   <body>
     <main id="weather-session"></main>
-  <script type="text/javascript" src="main.2c173224e0fd52d23480.js"></script></body>
+  <script type="text/javascript" src="main.e3fb27b6232999b1dee5.js"></script></body>
 </html>
