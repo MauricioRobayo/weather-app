@@ -1,6 +1,10 @@
 class IPInfo {
   constructor() {
-    this._url = new URL('https://vast-lake-71168.herokuapp.com/ipinfo')
+    if (window.location.hostname === 'localhost') {
+      this._url = new URL('http://localhost:5000/ipinfo')
+    } else {
+      this._url = new URL('https://vast-lake-71168.herokuapp.com/ipinfo')
+    }
   }
 
   async fetchIPInfo() {

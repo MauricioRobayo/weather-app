@@ -1,6 +1,10 @@
 class WeatherApi {
   constructor() {
-    this._url = new URL('https://vast-lake-71168.herokuapp.com/weather')
+    if (window.location.hostname === 'localhost') {
+      this._url = new URL('http://localhost:5000/weather')
+    } else {
+      this._url = new URL('https://vast-lake-71168.herokuapp.com/weather')
+    }
   }
 
   async fetchWeather(city, units = 'metric') {
