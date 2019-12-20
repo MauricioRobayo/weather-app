@@ -1,17 +1,15 @@
 import './style.scss'
 import WeatherSession from './js/weather-session'
-import WeatherApi from './js/weather-api'
-import IPInfo from './js/ipinfo-api'
+import fetchWeather from './js/weather-api'
+import fetchCity from './js/ipinfo-api'
 
 const displayElement = document.querySelector('main')
-const ipinfo = new IPInfo()
 
-ipinfo
-  .getCity()
+fetchCity()
   .then(city => {
     const weatherSession = new WeatherSession({
       parentElement: displayElement,
-      weatherApi: new WeatherApi(),
+      weatherApi: fetchWeather,
       city,
     })
     weatherSession.startNewSession()

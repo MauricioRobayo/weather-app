@@ -1,21 +1,16 @@
-class WeatherApi {
-  constructor() {
-    if (window.location.hostname === 'localhost') {
-      this._url = new URL('http://localhost:5000/weather')
-    } else {
-      this._url = new URL('https://vast-lake-71168.herokuapp.com/weather')
-    }
-  }
+const fetchWeather = async (city, units = 'metric') => {
+  const url =
+    window.location.hostname === 'localhost'
+      ? 'http://localhost:5000'
+      : 'https://vast-lake-71168.herokuapp.com'
 
-  async fetchWeather(city, units = 'metric') {
-    this._url.search = new URLSearchParams({
-      q: city,
-      units,
-    }).toString()
-    const response = await fetch(this._url.href)
-    const data = await response.json()
-    return { response, data }
-  }
+  const queryparams = new URLSearchParams({
+    q: city,
+    units,
+  }).toString()
+  const response = await fetch(`${url}/weather?${queryparams}`)
+  const data = await response.json()
+  return { response, data }
 }
 
-export default WeatherApi
+export default fetchWeather
