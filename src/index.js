@@ -4,8 +4,8 @@ import WeatherApi from './js/weather-api'
 import IPInfo from './js/ipinfo-api'
 
 const displayElement = document.querySelector('main')
-
 const ipinfo = new IPInfo()
+
 ipinfo
   .getCity()
   .then(city => {
