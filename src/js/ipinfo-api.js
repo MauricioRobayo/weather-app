@@ -20,10 +20,6 @@ class IPInfo {
     }
     throw new Error(`${data.error.title}: ${data.error.message}`)
   }
-
-  get url() {
-    return this._url
-  }
 }
 
 export default IPInfo

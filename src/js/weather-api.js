@@ -16,10 +16,6 @@ class WeatherApi {
     const data = await response.json()
     return { response, data }
   }
-
-  get url() {
-    return this._url
-  }
 }
 
 export default WeatherApi
