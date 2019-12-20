@@ -15,7 +15,6 @@ ipinfo
       city,
     })
     weatherSession.startNewSession()
-    return weatherSession
   })
   .catch(e => {
     displayElement.append(e.message)
