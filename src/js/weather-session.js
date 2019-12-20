@@ -38,7 +38,10 @@ class WeatherSession {
 
   async getWeather() {
     this.appendLine(create.loader())
-    Object.assign(this, await this.weatherApi(this.requestedCity, this.units))
+    Object.assign(
+      this,
+      await this.weatherApi({ q: this.requestedCity, units: this.units })
+    )
   }
 
   handleResponse() {
