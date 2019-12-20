@@ -1,5 +1,5 @@
-const fromCache = (key, cacheMinutes = 5) => {
-  const cacheInMilliseconds = cacheMinutes * 60 * 1000
+const fromCache = (key, cacheInMinutes = 5) => {
+  const cacheInMilliseconds = cacheInMinutes * 60 * 1000
   if (localStorage[key] !== undefined) {
     const cache = JSON.parse(localStorage[key])
     if (Date.now() - cache.datetime < cacheInMilliseconds) {
@@ -10,10 +10,10 @@ const fromCache = (key, cacheMinutes = 5) => {
   return false
 }
 
-const fetchData = endpoint => async (queryparams = {}) => {
+const fetchData = (endpoint, cacheInMinutes) => async (queryparams = {}) => {
   const searchparams = new URLSearchParams(queryparams).toString()
   const key = `${endpoint}-${searchparams}`
-  const cache = fromCache(key)
+  const cache = fromCache(key, cacheInMinutes)
 
   const url =
     window.location.hostname === 'localhost'
@@ -33,7 +33,7 @@ const fetchData = endpoint => async (queryparams = {}) => {
   return { ...data, cache: false }
 }
 
-const fetchCity = fetchData('ipinfo')
-const fetchWeather = fetchData('weather')
+const fetchCity = fetchData('ipinfo', 30)
+const fetchWeather = fetchData('weather', 5)
 
 export { fetchCity, fetchWeather }
