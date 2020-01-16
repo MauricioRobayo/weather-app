@@ -63,4 +63,4 @@ To be able to remove the API key from the front-end code, the project uses the [
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE).
