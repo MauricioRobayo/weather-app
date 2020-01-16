@@ -49,7 +49,7 @@ npm run start
 npm run build
 ```
 
-The production site is automatically deployed to GitHub pages using [GitHub Actions](./github/workflows/main.yml).
+The production site is automatically deployed to GitHub pages using [GitHub Actions](./.github/workflows/main.yml).
 
 ## Contributing
 
