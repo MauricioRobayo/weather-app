@@ -15,10 +15,9 @@ const fetchData = (endpoint, cacheInMinutes) => async (queryparams = {}) => {
   const key = `${endpoint}-${searchparams}`
   const cache = fromCache(key, cacheInMinutes)
 
-  const url =
-    window.location.hostname === 'localhost'
-      ? 'http://localhost:5000'
-      : 'https://vast-lake-71168.herokuapp.com'
+  const url = ['localhost', '127.0.0.1'].includes(window.location.hostname)
+    ? 'http://localhost:5000'
+    : 'https://vast-lake-71168.herokuapp.com'
 
   if (cache) {
     return cache
