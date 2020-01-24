@@ -26,7 +26,7 @@ const fetchData = (endpoint, cacheInMinutes) => async (queryparams = {}) => {
 
   const response = await fetch(`${url}/${endpoint}?${searchparams}`)
   if (!response.ok) {
-    throw new Error(`${response.status}: ${response.statusText}`)
+    throw new Error(`${response.statusText} (${response.status})`)
   }
   const data = await response.json()
   localStorage[key] = JSON.stringify({ datetime: Date.now(), data })

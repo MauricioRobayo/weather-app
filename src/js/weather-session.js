@@ -28,7 +28,7 @@ class WeatherSession {
       } catch (e) {
         this.replaceLine(
           create.line({
-            text: e,
+            text: e.message,
             type: 'error',
           })
         )
