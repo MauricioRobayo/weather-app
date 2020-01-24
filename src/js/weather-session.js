@@ -21,20 +21,16 @@ class WeatherSession {
   }
 
   async keypress(event) {
-    if (event.key === 'Enter') {
-      this.setRequestedCity()
-      try {
-        await this.getWeather()
-      } catch (e) {
-        this.replaceLine(
-          create.line({
-            text: e.message,
-            type: 'error',
-          })
-        )
-      }
-      this.handleResponse()
+    if (event.key !== 'Enter') {
+      return
     }
+    this.setRequestedCity()
+    await this.handleResponse()
+    new WeatherSession({
+      parentElement: this.sessionParent,
+      weatherApi: this.weatherApi,
+      city: this.initialCity,
+    }).startNewSession()
   }
 
   setRequestedCity() {
@@ -54,14 +50,19 @@ class WeatherSession {
     Object.assign(this, { data })
   }
 
-  handleResponse() {
-    this.displayTitle()
-    this.displayInfo()
-    new WeatherSession({
-      parentElement: this.sessionParent,
-      weatherApi: this.weatherApi,
-      city: this.initialCity,
-    }).startNewSession()
+  async handleResponse() {
+    try {
+      await this.getWeather()
+      this.displayTitle()
+      this.displayInfo()
+    } catch (e) {
+      this.replaceLine(
+        create.line({
+          text: e.message,
+          type: 'error',
+        })
+      )
+    }
   }
 
   async changeUnit(event) {
