@@ -17,7 +17,7 @@
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-import": "^2.19.1",
     "html-webpack-plugin": "^3.2.0",
-    "husky": "^3.1.0",
+    "husky": "^4.2.1",
     "lint-staged": "^9.5.0",
     "prettier": "^1.18.2",
     "webpack": "^4.41.3",
