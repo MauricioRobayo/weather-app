@@ -16,7 +16,7 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
-    "html-webpack-plugin": "^4.2.0",
+    "html-webpack-plugin": "^4.2.1",
     "husky": "^4.2.5",
     "lint-staged": "^10.1.7",
     "prettier": "^2.0.5",
