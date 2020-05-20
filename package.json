@@ -30,7 +30,7 @@
     "singleQuote": true
   },
   "dependencies": {
-    "linkify-it": "^2.2.0"
+    "linkify-it": "^3.0.2"
   },
   "repository": {
     "type": "git",
