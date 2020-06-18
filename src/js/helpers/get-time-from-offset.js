@@ -1,5 +1,5 @@
-const getTimeFromOffset = timeOffsetInSeconds => {
-  const d = new Date()
+const getTimeFromOffset = (timeOffsetInSeconds) => {
+  const d = new Date();
   const d2 = new Date(
     d.getFullYear(),
     d.getMonth(),
@@ -7,8 +7,8 @@ const getTimeFromOffset = timeOffsetInSeconds => {
     d.getHours(),
     d.getMinutes(),
     d.getSeconds() + timeOffsetInSeconds
-  )
-  return d2.toISOString().slice(11, 16)
-}
+  );
+  return d2.toISOString().slice(11, 16);
+};
 
-export default getTimeFromOffset
+export default getTimeFromOffset;
