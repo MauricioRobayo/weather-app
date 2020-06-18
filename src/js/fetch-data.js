@@ -33,6 +33,6 @@ const fetchData = (endpoint, cacheInMinutes) => async (queryparams = {}) => {
 };
 
 const fetchCity = fetchData('ipinfo', 30);
-const fetchWeather = fetchData('weather', 5);
+const fetchWeather = fetchData('weather', 10);
 
 export { fetchCity, fetchWeather };
