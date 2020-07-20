@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "linkify-it": "^3.0.2",
-    "simple-localstorage-cache": "^1.1.1"
+    "simple-localstorage-cache": "^1.1.2"
   },
   "repository": {
     "type": "git",
