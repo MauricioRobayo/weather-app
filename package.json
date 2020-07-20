@@ -4,14 +4,15 @@
   "description": "Weather forecast app using the Open Weather API",
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server --open",
-    "build": "webpack --mode=production",
+    "start": "webpack-dev-server --open --env.local",
+    "build": "webpack --mode=production --env.production",
     "lint": "eslint --fix src",
     "format": "prettier --write \"./src/**/*.{js,html,scss}\""
   },
   "author": "Mauricio Robayo <rfmajo@gmail.com> (www.mauriciorobayo.com)",
   "license": "MIT",
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "eslint": "^7.3.1",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -28,7 +29,8 @@
     "singleQuote": true
   },
   "dependencies": {
-    "linkify-it": "^3.0.2"
+    "linkify-it": "^3.0.2",
+    "simple-localstorage-cache": "^1.1.1"
   },
   "repository": {
     "type": "git",

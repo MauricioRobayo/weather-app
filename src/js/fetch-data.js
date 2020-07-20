@@ -1,38 +1,45 @@
-const fromCache = (key, cacheInMinutes = 5) => {
-  const cacheInMilliseconds = cacheInMinutes * 60 * 1000;
-  if (localStorage[key] !== undefined) {
-    const cache = JSON.parse(localStorage[key]);
-    if (Date.now() - cache.datetime < cacheInMilliseconds) {
-      return { ...cache.data, cache: cache.datetime + cacheInMilliseconds };
-    }
-    localStorage.removeItem(key);
-  }
-  return false;
-};
+import SLSC from 'simple-localstorage-cache';
 
-const fetchData = (endpoint, cacheInMinutes) => async (queryparams = {}) => {
-  const searchparams = new URLSearchParams(queryparams).toString();
-  const key = `${endpoint}-${searchparams}`;
-  const cache = fromCache(key, cacheInMinutes);
+const PROXY_URL = 'https://vast-lake-71168.herokuapp.com/';
 
-  const url = ['localhost', '127.0.0.1'].includes(window.location.hostname)
-    ? 'http://localhost:5000'
-    : 'https://vast-lake-71168.herokuapp.com';
+const fetchData = (endpoint, cacheInSeconds) => async (queryparams = {}) => {
+  const url = new URL(endpoint);
 
-  if (cache) {
-    return cache;
+  Object.entries(queryparams).forEach(([key, value]) => {
+    url.searchParams.append(key, value);
+  });
+
+  const cache = new SLSC(url, cacheInSeconds);
+
+  if (cache.hasCache()) {
+    const { data, expiration } = cache.get();
+    return { ...data, cache: new Date(expiration) };
   }
 
-  const response = await fetch(`${url}/${endpoint}?${searchparams}`);
+  const response = await fetch(url);
+
   if (!response.ok) {
     throw new Error(`${response.statusText} (${response.status})`);
   }
+
   const data = await response.json();
-  localStorage[key] = JSON.stringify({ datetime: Date.now(), data });
+
+  cache.update(data);
+
   return { ...data, cache: false };
 };
 
-const fetchCity = fetchData('ipinfo', 30);
-const fetchWeather = fetchData('weather', 10);
+const fetchCity = fetchData(
+  LOCAL // eslint-disable-line no-undef
+    ? `https://ipinfo.io/?token=${process.env.IPINFO_TOKEN}`
+    : `${PROXY_URL}ipinfo`,
+  30 * 60
+);
+const fetchWeather = fetchData(
+  LOCAL // eslint-disable-line no-undef
+    ? `https://api.openweathermap.org/data/2.5/weather?appid=${process.env.WEATHER_API_KEY}`
+    : `${PROXY_URL}weather`,
+  10 * 60
+);
 
 export { fetchCity, fetchWeather };
