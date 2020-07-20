@@ -29,7 +29,8 @@
     "singleQuote": true
   },
   "dependencies": {
-    "linkify-it": "^3.0.2"
+    "linkify-it": "^3.0.2",
+    "simple-localstorage-cache": "^1.1.1"
   },
   "repository": {
     "type": "git",
