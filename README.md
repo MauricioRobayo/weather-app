@@ -1,7 +1,5 @@
 # Weather App ☔
 
-[![Weather forecast](https://repository-images.githubusercontent.com/220337868/a271d180-33ca-11ea-9a3a-4b4a7c15f44a)](https://www.mauriciorobayo.com/weather-app)
-
 [![Build Status](https://github.com/MauricioRobayo/weather-app/workflows/Build%20and%20Deploy/badge.svg)](https://github.com/MauricioRobayo/weather-app/actions)
 [![codebeat badge](https://codebeat.co/badges/5d39d456-555b-44f4-a66c-046967635c6d)](https://codebeat.co/projects/github-com-mauriciorobayo-weather-app-master)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=MauricioRobayo/weather-app)](https://dependabot.com)
