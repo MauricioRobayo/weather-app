@@ -9,10 +9,12 @@ const fetchData = (endpoint, cacheInSeconds) => async (queryparams = {}) => {
     url.searchParams.append(key, value);
   });
 
-  const cache = new SLSC(url, cacheInSeconds);
+  const cache = new SLSC(url.toString().toLowerCase(), cacheInSeconds);
 
-  if (cache.hasCache()) {
-    const { data, expiration } = cache.get();
+  const cached = cache.get();
+
+  if (cached) {
+    const { data, expiration } = cached;
     return { ...data, cache: new Date(expiration) };
   }
 
