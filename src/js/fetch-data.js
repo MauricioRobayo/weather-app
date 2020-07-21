@@ -11,8 +11,10 @@ const fetchData = (endpoint, cacheInSeconds) => async (queryparams = {}) => {
 
   const cache = new SLSC(url, cacheInSeconds);
 
-  if (cache.hasCache()) {
-    const { data, expiration } = cache.get();
+  const cached = cache.get();
+
+  if (cached) {
+    const { data, expiration } = cached;
     return { ...data, cache: new Date(expiration) };
   }
 
