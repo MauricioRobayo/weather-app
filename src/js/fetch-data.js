@@ -9,7 +9,7 @@ const fetchData = (endpoint, cacheInSeconds) => async (queryparams = {}) => {
     url.searchParams.append(key, value);
   });
 
-  const cache = new SLSC(url, cacheInSeconds);
+  const cache = new SLSC(url.toString().toLowerCase(), cacheInSeconds);
 
   const cached = cache.get();
 
