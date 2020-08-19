@@ -1,15 +1,19 @@
-import SLSC from 'simple-localstorage-cache';
+import Cache from 'simple-storage-cache';
 
 const PROXY_URL = 'https://vast-lake-71168.herokuapp.com/';
+const THIRTY_MINUTES_IN_MILLISECONDS = 30 * 60 * 1000;
+const TEN_MINUTES_IN_MILLISECONDS = 10 * 60 * 1000;
 
-const fetchData = (endpoint, cacheInSeconds) => async (queryparams = {}) => {
+const fetchData = (endpoint, cacheInMilliseconds) => async (
+  queryparams = {}
+) => {
   const url = new URL(endpoint);
 
   Object.entries(queryparams).forEach(([key, value]) => {
     url.searchParams.append(key, value);
   });
 
-  const cache = new SLSC(url.toString().toLowerCase(), cacheInSeconds);
+  const cache = new Cache(url.toString().toLowerCase(), cacheInMilliseconds);
 
   const cached = cache.get();
 
@@ -35,13 +39,13 @@ const fetchCity = fetchData(
   LOCAL // eslint-disable-line no-undef
     ? `https://ipinfo.io/?token=${process.env.IPINFO_TOKEN}`
     : `${PROXY_URL}ipinfo`,
-  30 * 60
+  THIRTY_MINUTES_IN_MILLISECONDS
 );
 const fetchWeather = fetchData(
   LOCAL // eslint-disable-line no-undef
     ? `https://api.openweathermap.org/data/2.5/weather?appid=${process.env.WEATHER_API_KEY}`
     : `${PROXY_URL}weather`,
-  10 * 60
+  TEN_MINUTES_IN_MILLISECONDS
 );
 
 export { fetchCity, fetchWeather };
