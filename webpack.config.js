@@ -4,7 +4,6 @@ const webpack = require("webpack");
 const dotenv = require("dotenv");
 
 module.exports = (env) => {
-  console.log(env.local, "🔥");
   if (env.local) {
     dotenv.config();
   }
