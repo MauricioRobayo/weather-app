@@ -1,9 +1,9 @@
-import * as create from './helpers/elements-creators';
-import getTimeFromOffset from './helpers/get-time-from-offset';
-import { toFarenheit, toCelsius } from './helpers/temp-conversion';
+import * as create from "./helpers/elements-creators";
+import getTimeFromOffset from "./helpers/get-time-from-offset";
+import { toFarenheit, toCelsius } from "./helpers/temp-conversion";
 
 class WeatherSession {
-  constructor({ parentElement, weatherApi, city = '', units = 'metric' }) {
+  constructor({ parentElement, weatherApi, city = "", units = "metric" }) {
     this.sessionParent = parentElement;
     this.weatherApi = weatherApi;
     this.units = units;
@@ -21,7 +21,7 @@ class WeatherSession {
   }
 
   async keypress(event) {
-    if (event.key !== 'Enter') {
+    if (event.key !== "Enter") {
       return;
     }
     this.setRequestedCity();
@@ -59,7 +59,7 @@ class WeatherSession {
       this.replaceLine(
         create.line({
           text: e.message,
-          type: 'error',
+          type: "error",
         })
       );
     }
@@ -67,14 +67,14 @@ class WeatherSession {
 
   async changeUnit(event) {
     const button =
-      event.target.tagName === 'BUTTON'
+      event.target.tagName === "BUTTON"
         ? event.target
         : event.target.parentElement;
     this.temperature.textContent =
-      this.units === 'metric'
+      this.units === "metric"
         ? toFarenheit(this.temperature.textContent)
         : toCelsius(this.temperature.textContent);
-    this.units = this.units === 'metric' ? 'imperial' : 'metric';
+    this.units = this.units === "metric" ? "imperial" : "metric";
     button.innerHTML = create.unitsToggle(this.units);
   }
 
@@ -90,7 +90,7 @@ class WeatherSession {
     this.replaceLine(
       create.line({
         text: `${this.data.name}, ${this.data.sys.country}`,
-        type: 'title',
+        type: "title",
         children: [create.icon(this.data.weather[0].icon)],
       })
     );
@@ -98,9 +98,9 @@ class WeatherSession {
 
   displayInfo() {
     const {
-      timezone = '',
-      weather: [{ main = '', description = '' }],
-      main: { temp = '', pressure = '', humidity = '' },
+      timezone = "",
+      weather: [{ main = "", description = "" }],
+      main: { temp = "", pressure = "", humidity = "" },
       cache,
     } = this.data;
     this.temperature.textContent = temp;

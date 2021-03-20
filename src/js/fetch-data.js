@@ -1,6 +1,6 @@
-import Cache from 'simple-storage-cache';
+import Cache from "simple-storage-cache";
 
-const PROXY_URL = 'https://vast-lake-71168.herokuapp.com/';
+const PROXY_URL = "https://vast-lake-71168.herokuapp.com/";
 const THIRTY_MINUTES_IN_MILLISECONDS = 30 * 60 * 1000;
 const TEN_MINUTES_IN_MILLISECONDS = 10 * 60 * 1000;
 

@@ -1,4 +1,4 @@
-const linkifyIt = require('linkify-it')();
+const linkifyIt = require("linkify-it")();
 
 const linkifyText = (text) => {
   let linkifiedText = text;

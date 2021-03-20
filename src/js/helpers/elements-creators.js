@@ -1,4 +1,4 @@
-import linkifyText from './linkify-text';
+import linkifyText from "./linkify-text";
 
 const addClassList = (element, classList) => {
   element.classList.add(...classList);
@@ -31,7 +31,7 @@ const setProperty = (element, key, value) => {
   }
 };
 
-const element = (type = 'div', properties = {}) => {
+const element = (type = "div", properties = {}) => {
   const element = document.createElement(type);
   Object.entries(properties).forEach(([key, value]) => {
     setProperty(element, key, value);
@@ -39,73 +39,73 @@ const element = (type = 'div', properties = {}) => {
   return element;
 };
 
-const line = ({ text = '', type = 'default', children = [] }) => {
-  const line = element('p', {
-    innerHTML: text ? linkifyText(text) : '',
-    classList: ['line', type],
+const line = ({ text = "", type = "default", children = [] }) => {
+  const line = element("p", {
+    innerHTML: text ? linkifyText(text) : "",
+    classList: ["line", type],
     children,
   });
   return line;
 };
 
-const infoLine = (key, { value = '', children = [] }) => {
+const infoLine = (key, { value = "", children = [] }) => {
   return line({
     text: `${key}: ${value}`,
-    type: 'info',
+    type: "info",
     children,
   });
 };
 
 const icon = (file) => {
-  return element('img', {
+  return element("img", {
     src: `https://openweathermap.org/img/wn/${file}.png`,
-    alt: 'weather icon',
-    classList: ['icon', file.endsWith('d') ? 'day' : 'night'],
+    alt: "weather icon",
+    classList: ["icon", file.endsWith("d") ? "day" : "night"],
   });
 };
 
 const loader = () => {
-  return element('div', {
-    classList: ['loader'],
+  return element("div", {
+    classList: ["loader"],
   });
 };
 
 const prompt = (placeholder, keyupCallback) => {
-  const cityNameInput = element('input', {
-    type: 'text',
-    id: 'city-name',
-    name: 'city-name',
+  const cityNameInput = element("input", {
+    type: "text",
+    id: "city-name",
+    name: "city-name",
     placeholder,
   });
-  const cityNameLabel = element('label', {
-    textContent: 'City name:',
+  const cityNameLabel = element("label", {
+    textContent: "City name:",
     children: [cityNameInput],
   });
-  const sessionWrapper = element('div', {
-    classList: ['session-wrapper'],
+  const sessionWrapper = element("div", {
+    classList: ["session-wrapper"],
     children: [line({ children: [cityNameLabel] })],
   });
-  cityNameInput.addEventListener('keyup', keyupCallback);
+  cityNameInput.addEventListener("keyup", keyupCallback);
   return { cityNameInput, sessionWrapper };
 };
 
 const unitsToggle = (activeUnit) => {
-  return activeUnit === 'metric'
+  return activeUnit === "metric"
     ? '<span class="unit-active">C</span> ⇄ F'
     : '<span class="unit-active">F</span> ⇄ C';
 };
 
 const temperature = (activeUnit, clickCallback) => {
-  const temperature = element('span', { classList: ['temp'] });
-  const toggleTemperature = element('button', {
-    classList: ['toggle'],
+  const temperature = element("span", { classList: ["temp"] });
+  const toggleTemperature = element("button", {
+    classList: ["toggle"],
     innerHTML: unitsToggle(activeUnit),
   });
-  const temperatureLine = infoLine('temp', {
+  const temperatureLine = infoLine("temp", {
     children: [temperature, toggleTemperature],
   });
 
-  toggleTemperature.addEventListener('click', clickCallback);
+  toggleTemperature.addEventListener("click", clickCallback);
   return { temperatureLine, temperature };
 };
 

@@ -15,7 +15,7 @@ html {
   box-sizing: inherit;
 }
 body {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   background-color: var(--background-color);
   margin: 0;
   padding: 0;
@@ -108,7 +108,7 @@ body {
   display: inline-block;
   animation: rotate 1s steps(3, end) infinite;
   &:before {
-    content: '/';
+    content: "/";
   }
 }
 .hide {
