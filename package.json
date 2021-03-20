@@ -7,7 +7,8 @@
     "start": "webpack-dev-server --open --env.local",
     "build": "webpack --mode=production --env.production",
     "lint": "eslint --fix src",
-    "format": "prettier --write \"./src/**/*.{js,html,scss}\""
+    "format": "prettier --write \"./src/**/*.{js,html,scss}\"",
+    "postinstall": "husky install"
   },
   "author": "Mauricio Robayo <rfmajo@gmail.com> (www.mauriciorobayo.com)",
   "license": "MIT",
@@ -37,11 +38,6 @@
     "url": "https://mauriciorobayo.github.io/weather-app"
   },
   "homepage": "https://mauriciorobayo/github.io/weather-app",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "*.{js,html,scss}": [
       "prettier --write"
