@@ -16,7 +16,7 @@ No frameworks were harmed in the making of this project.
 
 ## Live Demo
 
-https://www.mauriciorobayo.com/weather-app
+https://mauriciorobayo.github.io/weather-app/
 
 ## Getting Started
 
